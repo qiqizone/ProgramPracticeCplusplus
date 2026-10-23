@@ -1,0 +1,2773 @@
+[
+  {
+    "slug": "ch1-q01",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int a = 7;\n    int b = 2;\n    double d = a / b;\n    std::cout << d;\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "3.5"
+      },
+      {
+        "id": "B",
+        "text": "3.0"
+      },
+      {
+        "id": "C",
+        "text": "3"
+      },
+      {
+        "id": "D",
+        "text": "4"
+      }
+    ],
+    "answer": "C",
+    "explanation": "`a` 和 `b` 都是 `int`，所以 `a / b` 先执行整数除法并截断为 `3`，再把 `3` 转换为 `double` 存入 `d`。默认格式的 `std::cout` 输出 `double` 值 `3.0` 时不会补小数部分，因此显示 `3`。A 误以为只要结果是 `double` 就会做浮点除法；B 混淆了变量的内部值与默认输出格式；D 把截断误当成四舍五入。常见误区：以为 `d` 是 `3.0` 就一定打印 `3.0`；若需要固定小数位，可使用 `std::fixed` 和 `std::setprecision`。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 1
+  },
+  {
+    "slug": "ch1-q02",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下列哪段代码能够通过编译？",
+    "options": [
+      {
+        "id": "A",
+        "text": "```cpp\nconst int a = 10;\na = 20;\n```"
+      },
+      {
+        "id": "B",
+        "text": "```cpp\nconst int b;\nb = 5;\n```"
+      },
+      {
+        "id": "C",
+        "text": "```cpp\nconst int c = 3;\nconst int d = c * 2;\n```"
+      },
+      {
+        "id": "D",
+        "text": "```cpp\nconst double e = 1.5;\ne += 1.0;\n```"
+      }
+    ],
+    "answer": "C",
+    "explanation": "`const` 变量必须在定义时初始化，之后不能赋值。A 和 D 都修改了 `const` 对象；B 的 `const int b;` 没有初始化器，本身就不合法，后面的赋值也不能当作初始化。C 中 `d` 用 `c` 的常量表达式初始化，合法。常见误区：认为可以先定义 `const` 变量、之后再赋值。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 2
+  },
+  {
+    "slug": "ch1-q03",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int i = 5;\n    int a = i++;\n    int b = ++i;\n    std::cout << a << ' ' << b;\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "5 6"
+      },
+      {
+        "id": "B",
+        "text": "5 7"
+      },
+      {
+        "id": "C",
+        "text": "6 7"
+      },
+      {
+        "id": "D",
+        "text": "6 6"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`i++` 是后置自增：先把旧值 `5` 赋给 `a`，再把 `i` 变成 `6`。`++i` 是前置自增：先把 `i` 加到 `7`，再把 `7` 赋给 `b`，所以 `a = 5, b = 7`，输出 `5 7`。A 漏掉了第二次自增；C 把后置自增当成先自增；D 认为两次都先自增。关键：后置自增返回旧值，前置自增返回新值。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 3
+  },
+  {
+    "slug": "ch1-q04",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    std::cout << (3 > 2 > 1);\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "1"
+      },
+      {
+        "id": "B",
+        "text": "0"
+      },
+      {
+        "id": "C",
+        "text": "true"
+      },
+      {
+        "id": "D",
+        "text": "编译错误"
+      }
+    ],
+    "answer": "B",
+    "explanation": "关系运算符从左到右结合，`3 > 2 > 1` 等价于 `(3 > 2) > 1`。`3 > 2` 得到 `bool` 值 `true`，参与下一次比较时转换为 `1`，`1 > 1` 为 `false`，输出 `0`。A 把表达式当成数学上的连续比较；C 混淆了布尔值的显示方式；D 不存在编译错误。常见误区：以为 C++ 支持 `a < b < c` 这种数学写法。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 4
+  },
+  {
+    "slug": "ch1-q05",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "关于有符号整数与无符号整数溢出，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "有符号整数溢出会按 2 的幂取模回绕，结果有明确定义"
+      },
+      {
+        "id": "B",
+        "text": "无符号整数溢出会按 2^N 取模回绕，结果有明确定义；有符号整数溢出是未定义行为"
+      },
+      {
+        "id": "C",
+        "text": "两者溢出都是未定义行为"
+      },
+      {
+        "id": "D",
+        "text": "两者溢出都有明确定义，且都向零截断"
+      }
+    ],
+    "answer": "B",
+    "explanation": "无符号整数的运算按 `2^N` 取模，溢出回绕有明确定义；有符号整数溢出在标准中是未定义行为，不能依赖结果。A 把有符号溢出误认为有定义；C 把两者混为一谈；D 中“向零截断”是浮点转整数的规则，不适用于整数溢出。常见误区：看到无符号数减到负数还得到一个大数，就以为有符号数也会这样。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 5
+  },
+  {
+    "slug": "ch1-q06",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "关于 `switch` 语句，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`switch` 的条件表达式可以是 `double` 类型"
+      },
+      {
+        "id": "B",
+        "text": "`case` 标签必须是整型常量表达式，且同一个 `switch` 中不能有重复的 `case` 值"
+      },
+      {
+        "id": "C",
+        "text": "每个 `case` 分支都必须以 `break` 结束，否则无法通过编译"
+      },
+      {
+        "id": "D",
+        "text": "`default` 分支必须写在所有 `case` 之后"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`switch` 的条件必须是整型或枚举类型（或能转换为整型的类类型），`case` 标签必须是整型常量表达式且不能重复；`break` 可选，缺失时会发生贯穿（fallthrough）；`default` 可以出现在任意位置。A 错在 `double` 不能作为 `switch` 条件；C 错在 `break` 不是强制的；D 错在 `default` 的位置没有限制。常见误区：以为漏写 `break` 会编译失败，实际上会继续执行后面的分支。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 6
+  },
+  {
+    "slug": "ch1-q07",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int x = 1;\n    {\n        int x = 2;\n        x++;\n        std::cout << x;\n    }\n    std::cout << x;\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "31"
+      },
+      {
+        "id": "B",
+        "text": "21"
+      },
+      {
+        "id": "C",
+        "text": "11"
+      },
+      {
+        "id": "D",
+        "text": "33"
+      }
+    ],
+    "answer": "A",
+    "explanation": "内层块中又定义了一个同名 `x`，它遮蔽（shadow）了外层的 `x`。内层 `x` 从 `2` 自增到 `3` 并输出，离开块后外层 `x` 仍是 `1`，再输出 `1`，所以结果是 `31`。B 误以为内层输出 `2`；C 误以为内层修改影响外层；D 把两次输出都算成 `3`。常见误区：忽略块作用域，认为同名变量是同一个对象。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 7
+  },
+  {
+    "slug": "ch1-q08",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "hard",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    std::cout << sizeof('a') << ' ' << sizeof(\"a\");\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "1 1"
+      },
+      {
+        "id": "B",
+        "text": "4 2"
+      },
+      {
+        "id": "C",
+        "text": "1 2"
+      },
+      {
+        "id": "D",
+        "text": "4 1"
+      }
+    ],
+    "answer": "C",
+    "explanation": "在 C++ 中字符字面量 `'a'` 的类型是 `char`，所以 `sizeof('a')` 为 `1`（这一点与 C 语言不同，C 中字符常量是 `int`）。字符串字面量 `\"a\"` 的类型是 `const char[2]`，包含字符 `'a'` 和结尾空字符，因此 `sizeof(\"a\")` 为 `2`。A 把字符串也当成 1 字节；B 套用了 C 的规则；D 是两者的混合错误。常见误区：把 C 的 `sizeof('a') == 4` 习惯带到 C++。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 8
+  },
+  {
+    "slug": "ch1-q09",
+    "chapter": 1,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int x = 0;\n    if (x > 0)\n        if (x > 5)\n            std::cout << \"A\";\n    else\n        std::cout << \"B\";\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "A"
+      },
+      {
+        "id": "B",
+        "text": "B"
+      },
+      {
+        "id": "C",
+        "text": "什么都不输出"
+      },
+      {
+        "id": "D",
+        "text": "AB"
+      }
+    ],
+    "answer": "C",
+    "explanation": "`else` 与最近的、尚未匹配的 `if` 配对，因此它属于内层 `if (x > 5)`，而不是按缩进对应的外层 `if`。外层条件 `x > 0` 为假，整个内层 `if-else` 都不会执行，所以什么也不输出。A 和 B 都误判了 `else` 的归属；D 不存在同时输出两个分支的情况。常见误区：依赖缩进判断 `else` 的配对；应使用花括号明确结构。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 9
+  },
+  {
+    "slug": "ch1-q10",
+    "chapter": 1,
+    "type": "multiple",
+    "difficulty": "easy",
+    "stem": "下列变量定义中，哪些能通过编译？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`int a = 10;`"
+      },
+      {
+        "id": "B",
+        "text": "`int b(3.14);`"
+      },
+      {
+        "id": "C",
+        "text": "`int c{3.14};`"
+      },
+      {
+        "id": "D",
+        "text": "`const int d{42};`"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "`int a = 10;` 是普通的拷贝初始化，合法；`int b(3.14);` 用圆括号直接初始化，允许 `double` 到 `int` 的隐式转换（结果为 `3`），合法；`int c{3.14};` 使用列表初始化，`double` 到 `int` 属于收窄转换（narrowing），编译器会报错；`const int d{42};` 的值在 `int` 范围内，合法。常见误区：以为 `{}` 和 `()` 初始化完全等价；`{}` 会拒绝收窄转换。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 10
+  },
+  {
+    "slug": "ch1-q11",
+    "chapter": 1,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于逻辑运算符 `&&` 和 `||` 的短路求值，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`a && b` 中若 `a` 为 false，则 `b` 不会被求值"
+      },
+      {
+        "id": "B",
+        "text": "`a || b` 中若 `a` 为 true，则 `b` 不会被求值"
+      },
+      {
+        "id": "C",
+        "text": "`ptr != nullptr && ptr->value > 0` 依赖短路来避免解引用空指针"
+      },
+      {
+        "id": "D",
+        "text": "短路求值只影响性能，不会影响程序的最终结果"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "`&&` 和 `||` 都保证从左到右求值并短路：`a && b` 在 `a` 为假时不求值 `b`，`a || b` 在 `a` 为真时不求值 `b`，所以 A、B 正确。C 正确，`ptr != nullptr && ptr->value > 0` 正是利用短路避免对空指针解引用。D 错误：右侧表达式可能带副作用（如 `++i`）甚至包含未定义行为，短路会改变程序结果。常见误区：以为短路只是编译器优化，不影响语义。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 11
+  },
+  {
+    "slug": "ch1-q12",
+    "chapter": 1,
+    "type": "multiple",
+    "difficulty": "hard",
+    "stem": "关于 C++ 中的隐式类型转换，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "把 `double` 赋给 `int` 时，小数部分会被丢弃（向零截断）"
+      },
+      {
+        "id": "B",
+        "text": "把超出范围的 `int` 赋给 `char`，标准保证结果一定是按低字节截断且可移植"
+      },
+      {
+        "id": "C",
+        "text": "表达式 `int + unsigned int` 的运算结果类型是 `unsigned int`"
+      },
+      {
+        "id": "D",
+        "text": "`static_cast<int>(3.9)` 的结果是 `4`"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": "A 正确：`double` 赋给 `int` 时丢弃小数部分，向零截断。B 错误：把超出范围的 `int` 赋给有符号 `char` 的结果由实现定义（implementation-defined），并不保证可移植；只有无符号类型才有明确的取模规则。C 正确：`int` 与 `unsigned int` 混合运算时按通常算术转换，`int` 会转换为 `unsigned int`，结果类型是 `unsigned int`。D 错误：`static_cast<int>(3.9)` 是截断而不是四舍五入，结果是 `3`。常见误区：把 `char` 溢出和 `unsigned char` 回绕混为一谈。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 12
+  },
+  {
+    "slug": "ch1-q13",
+    "chapter": 1,
+    "type": "output",
+    "difficulty": "easy",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int sum = 0;\n    for (int i = 1; i <= 5; ++i) {\n        if (i % 2 == 0) {\n            sum += i;\n        }\n    }\n    std::cout << sum;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "6"
+    ],
+    "explanation": "循环 `i` 从 `1` 到 `5`，只有偶数会累加：`i = 2` 时 `sum = 2`，`i = 4` 时 `sum = 6`，奇数 `1、3、5` 被 `if` 跳过。循环结束后输出 `6`。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 13
+  },
+  {
+    "slug": "ch1-q14",
+    "chapter": 1,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int x = 2;\n    int s = 0;\n    switch (x) {\n    case 1:\n        s += 1;\n    case 2:\n        s += 2;\n    case 3:\n        s += 3;\n        break;\n    default:\n        s += 4;\n    }\n    std::cout << s;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "5"
+    ],
+    "explanation": "`x` 为 `2`，`switch` 跳到 `case 2`：先执行 `s += 2` 得 `2`，由于没有 `break`，继续贯穿执行 `case 3` 的 `s += 3` 得 `5`，遇到 `break` 后跳出。`case 1` 和 `default` 都不会执行，所以输出 `5`。常见误区：以为只执行匹配的 `case`，忽略贯穿（fallthrough）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 14
+  },
+  {
+    "slug": "ch1-q15",
+    "chapter": 1,
+    "type": "output",
+    "difficulty": "hard",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int i = 0;\n    int sum = 0;\n    while (i < 3) {\n        sum += i++;\n    }\n    int a = 5;\n    std::cout << (a | 1 == 1) << ' ' << sum;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "5 3"
+    ],
+    "explanation": "`while (i < 3)` 执行三次：`sum += i++` 分别把 `0、1、2` 加到 `sum`，`i` 最终为 `3`，`sum` 为 `3`。表达式 `a | 1 == 1` 中 `==` 的优先级高于 `|`，等价于 `a | (1 == 1)`，即 `5 | 1`，结果为 `5`（按位或）。因此输出 `5 3`。常见误区：把表达式看成 `(a | 1) == 1`，那会得到 `0`；另外要区分 `i++` 的旧值与自增后的值。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 15
+  },
+  {
+    "slug": "ch1-q16",
+    "chapter": 1,
+    "type": "code",
+    "difficulty": "easy",
+    "stem": "从标准输入读入三个整数，输出其中的最大值。\n\n**输入格式**：一行三个整数，用空格分隔。\n\n**输出格式**：一个整数，表示最大值。\n\n**示例**：\n\n```text\n输入：3 9 5\n输出：9\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "先读入三个数，把第一个数当作当前最大值，再用两个独立的 `if` 分别与第二个、第三个数比较，遇到更大的就更新。最后输出 `maxValue`。常见错误是用 `else if` 串联导致逻辑漏洞，或忘记处理三个数相等的情况（相等时无需更新，仍能输出正确值）。",
+    "hints": [
+      "先读入三个变量，再逐一比较。",
+      "可以假设第一个数是当前最大值，再与后两个数比较。",
+      "注意三个数相等时也要能正确输出。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nint main() {\n    int a = 0, b = 0, c = 0;\n    std::cin >> a >> b >> c;\n\n    int maxValue = a;\n    if (b > maxValue) {\n        maxValue = b;\n    }\n    if (c > maxValue) {\n        maxValue = c;\n    }\n\n    std::cout << maxValue << std::endl;\n    return 0;\n}\n```",
+    "order_index": 16
+  },
+  {
+    "slug": "ch1-q17",
+    "chapter": 1,
+    "type": "code",
+    "difficulty": "medium",
+    "stem": "不断读入整数，直到读入 `0` 为止（`0` 不计入统计）。分别统计其中正数和负数的个数并输出。\n\n**输入格式**：一行若干个整数，以 `0` 结尾。\n\n**输出格式**：两行，第一行为 `positive: x`，第二行为 `negative: y`。\n\n**示例**：\n\n```text\n输入：3 -1 -4 8 0\n输出：\npositive: 2\nnegative: 2\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "用 `while (std::cin >> value && value != 0)` 循环读入，读到 `0` 或输入结束时退出；循环体内用 `value > 0` 区分正数，`else` 分支只可能是负数（因为 `0` 已在条件中被排除）。最后按指定格式输出两行。常见错误是把 `0` 计入正数或负数，或在读到 `0` 后仍继续处理。",
+    "hints": [
+      "用 while 循环读入并判断，读到 0 时退出。",
+      "正数用 value > 0 判断，负数用 value < 0 判断。",
+      "注意 0 只作为结束标志，不能计入任何一类。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nint main() {\n    int positive = 0;\n    int negative = 0;\n    int value = 0;\n\n    while (std::cin >> value && value != 0) {\n        if (value > 0) {\n            ++positive;\n        } else {\n            ++negative;\n        }\n    }\n\n    std::cout << \"positive: \" << positive << '\\n';\n    std::cout << \"negative: \" << negative << '\\n';\n    return 0;\n}\n```",
+    "order_index": 17
+  },
+  {
+    "slug": "ch2-q01",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码能通过编译吗？\n\n```cpp\n#include <iostream>\n\nint add(int a, int b = 10);\n\nint add(int a, int b = 10) {\n    return a + b;\n}\n\nint main() {\n    std::cout << add(5);\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "能，输出 15"
+      },
+      {
+        "id": "B",
+        "text": "不能，默认参数不能在声明和定义中重复指定"
+      },
+      {
+        "id": "C",
+        "text": "不能，默认参数只能写在定义处"
+      },
+      {
+        "id": "D",
+        "text": "能，但输出 5"
+      }
+    ],
+    "answer": "B",
+    "explanation": "默认参数只能在函数的一次声明中给出。这里声明和定义都写了 `b = 10`，属于重复指定默认参数，编译报错。A 和 D 误以为可以重复；C 也不对，默认参数写在声明或定义中的任意一处即可，但只能出现一次。常见做法是把默认值写在头文件的声明里，定义处不再重复。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 1
+  },
+  {
+    "slug": "ch2-q02",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码有什么问题？\n\n```cpp\n#include <iostream>\n\nint main() {\n    std::cout << square(3);\n    return 0;\n}\n\nint square(int x) {\n    return x * x;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "没有问题，输出 9"
+      },
+      {
+        "id": "B",
+        "text": "编译错误：`square` 在调用点之前没有声明"
+      },
+      {
+        "id": "C",
+        "text": "输出 0"
+      },
+      {
+        "id": "D",
+        "text": "链接错误：`square` 未定义"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`main` 中调用 `square` 时，编译器还没有看到任何 `square` 的声明，C++ 要求函数在调用点之前可见，因此编译失败。A 误以为定义在同一个文件后面就能被调用；C 的结果无从谈起；D 是链接错误的说法，但这里在编译阶段就因找不到名字而失败。解决方法是在 `main` 之前加一句 `int square(int);` 前置声明，或把函数定义移到 `main` 上方。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 2
+  },
+  {
+    "slug": "ch2-q03",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n#include <string>\n\nint main() {\n    std::string s = \"abcdef\";\n    std::cout << s.substr(1, 3);\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "abc"
+      },
+      {
+        "id": "B",
+        "text": "bcd"
+      },
+      {
+        "id": "C",
+        "text": "bc"
+      },
+      {
+        "id": "D",
+        "text": "bcde"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`substr(pos, count)` 从下标 `pos` 开始取 `count` 个字符。`s = \"abcdef\"`，从下标 `1`（字符 `'b'`）开始取 `3` 个字符，得到 `\"bcd\"`。A 从 0 开始；C 把第二个参数误当成结束下标，取到 `[1, 3)`；D 取了 4 个字符。常见误区：混淆“起始位置 + 个数”与“左闭右开区间”。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 3
+  },
+  {
+    "slug": "ch2-q04",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nvoid f(int x) {\n    std::cout << \"int\";\n}\n\nvoid f(double x) {\n    std::cout << \"double\";\n}\n\nint main() {\n    float v = 1.5f;\n    f(v);\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "int"
+      },
+      {
+        "id": "B",
+        "text": "double"
+      },
+      {
+        "id": "C",
+        "text": "编译错误：调用有歧义"
+      },
+      {
+        "id": "D",
+        "text": "运行时根据实际类型决定"
+      }
+    ],
+    "answer": "B",
+    "explanation": "实参 `v` 是 `float`。重载候选是 `f(int)` 和 `f(double)`：`float` 到 `double` 是浮点提升（promotion），`float` 到 `int` 是普通转换（conversion），提升优于转换，因此选择 `f(double)`，输出 `double`。A 误以为整型重载优先；C 只有两个同样好的候选时才会歧义；D 重载在编译期就确定了，不会按运行时类型选择。常见误区：认为 `float` 会优先匹配 `int`。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 4
+  },
+  {
+    "slug": "ch2-q05",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "某个函数只读取一个较大的 `std::string` 参数而不修改它，下面哪种参数形式最合适？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`std::string s`"
+      },
+      {
+        "id": "B",
+        "text": "`std::string& s`"
+      },
+      {
+        "id": "C",
+        "text": "`const std::string& s`"
+      },
+      {
+        "id": "D",
+        "text": "`std::string* s`"
+      }
+    ],
+    "answer": "C",
+    "explanation": "函数只读参数，最合适的是 `const std::string&`：引用避免拷贝大对象，`const` 表明不修改，并允许绑定 `const` 对象和临时对象。A 会拷贝整个字符串；B 是非 const 引用，不能绑定 `const` 对象或临时值，且语义上暗示可能修改；D 用指针需要处理空指针且调用处要取地址。常见误区：为了“避免拷贝”就一律用非 const 引用。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 5
+  },
+  {
+    "slug": "ch2-q06",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "执行 `int a[5] = {1, 2};` 后，下列叙述正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`a[2]` 的值不确定"
+      },
+      {
+        "id": "B",
+        "text": "`a[2]` 到 `a[4]` 都是 0，数组长度仍为 5"
+      },
+      {
+        "id": "C",
+        "text": "数组长度自动变成 2"
+      },
+      {
+        "id": "D",
+        "text": "该语句不能通过编译"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`int a[5] = {1, 2};` 只显式初始化前两个元素，其余元素按规则进行值初始化，全部为 `0`；数组长度由方括号中的 `5` 决定，不会因为初始化列表短而缩短。因此 `a[2]` 到 `a[4]` 都是 `0`。A 把局部数组的“未初始化”与部分初始化混淆；C 错在数组长度不会改变；D 该写法完全合法。常见误区：以为没写出的元素是随机值。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 6
+  },
+  {
+    "slug": "ch2-q07",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "关于下面代码中 `show` 内部的 `sizeof(arr)`，下列说法正确的是？\n\n```cpp\n#include <iostream>\n\nvoid show(int arr[10]) {\n    std::cout << sizeof(arr);\n}\n\nint main() {\n    int a[10] = {};\n    show(a);\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "等于 40（假设 `int` 为 4 字节）"
+      },
+      {
+        "id": "B",
+        "text": "等于一个指针的大小，与参数中的 10 无关"
+      },
+      {
+        "id": "C",
+        "text": "等于 10"
+      },
+      {
+        "id": "D",
+        "text": "编译错误：不能对数组参数使用 `sizeof`"
+      }
+    ],
+    "answer": "B",
+    "explanation": "数组作为函数参数时会被调整（decay）为指向首元素的指针，`void show(int arr[10])` 实际上等价于 `void show(int* arr)`。因此在函数内部 `sizeof(arr)` 得到的是指针大小（常见为 4 或 8 字节，取决于平台），与数组长度 `10` 无关。A 错在把形参仍当成数组；C 混淆了元素个数；D 该用法合法。常见误区：在函数内用 `sizeof(arr) / sizeof(arr[0])` 求数组长度。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 7
+  },
+  {
+    "slug": "ch2-q08",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "hard",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n#include <string>\n\nint main() {\n    std::string a = \"10\";\n    std::string b = \"9\";\n    std::cout << (a < b);\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "1"
+      },
+      {
+        "id": "B",
+        "text": "0"
+      },
+      {
+        "id": "C",
+        "text": "true"
+      },
+      {
+        "id": "D",
+        "text": "编译错误：`std::string` 不能用 `<` 比较"
+      }
+    ],
+    "answer": "A",
+    "explanation": "`std::string` 的 `<` 按字典序比较字符，而不是把字符串当数字。`\"10\"` 和 `\"9\"` 的首字符分别是 `'1'` 和 `'9'`，`'1'` 的编码小于 `'9'`，所以 `a < b` 为 `true`，输出 `1`。B 是按数值比较的直觉；C 是布尔文本而不是 `std::cout` 的输出；D 错误，`std::string` 支持关系运算符。常见误区：比较数字字符串时忘记这是字典序。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 8
+  },
+  {
+    "slug": "ch2-q09",
+    "chapter": 2,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码会怎样？\n\n```cpp\n#include <iostream>\n\nvoid f(int a) {\n    std::cout << \"one\";\n}\n\nvoid f(int a, int b = 0) {\n    std::cout << \"two\";\n}\n\nint main() {\n    f(1);\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "输出 one"
+      },
+      {
+        "id": "B",
+        "text": "输出 two"
+      },
+      {
+        "id": "C",
+        "text": "编译错误：调用有歧义"
+      },
+      {
+        "id": "D",
+        "text": "运行时错误"
+      }
+    ],
+    "answer": "C",
+    "explanation": "`f(1)` 同时匹配两个重载：`f(int)` 需要一个实参，`f(int, int = 0)` 也可以用默认值补齐第二个参数。两个候选在第一个参数上相同，且都没有更优的转换，编译器无法判断哪个更好，因此报“调用有歧义”（ambiguous call）。A、B 都以为某个重载优先；D 不是运行期问题。常见误区：以为参数少的重载总是优先，或以为默认参数会自动让另一个重载“退让”。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 9
+  },
+  {
+    "slug": "ch2-q10",
+    "chapter": 2,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于函数的默认参数，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "默认参数必须从参数列表的最右端开始连续给出"
+      },
+      {
+        "id": "B",
+        "text": "同一个默认参数可以在函数声明和定义中重复指定"
+      },
+      {
+        "id": "C",
+        "text": "默认参数表达式在每次省略该实参的调用中都会重新求值"
+      },
+      {
+        "id": "D",
+        "text": "可以把默认值写在前面的参数上，例如 `void f(int a = 1, int b)`"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": "默认参数必须从右向左连续给出，不能跳过右边的参数给左边设默认值，所以 A 正确、D 错误。同一个参数的默认值只能在声明或定义中的一处指定，重复指定会编译报错，B 错误。默认参数表达式在每次省略该实参的调用中都会重新求值（例如默认值是函数调用时会再次执行），C 正确。常见误区：以为默认参数在编译期固定成一个常量，或以为可以随意重复写。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 10
+  },
+  {
+    "slug": "ch2-q11",
+    "chapter": 2,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于 C 风格字符串（以空字符结尾的字符数组），下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`char s[4] = \"abc\";` 是合法的，数组正好容纳 3 个字符和结尾空字符"
+      },
+      {
+        "id": "B",
+        "text": "`char s[3] = \"abc\";` 在标准 C++ 中不合法，因为没有位置存放结尾空字符"
+      },
+      {
+        "id": "C",
+        "text": "`strlen` 返回的长度包含结尾空字符"
+      },
+      {
+        "id": "D",
+        "text": "`char s[] = \"abc\";` 定义的数组长度为 4"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "`char s[4] = \"abc\";` 需要 3 个字符加 1 个结尾空字符，正好 4 个元素，合法，A 正确；`char s[3] = \"abc\";` 没有空间放结尾空字符，标准 C++ 中不合法，B 正确；`strlen` 统计到第一个空字符之前的字符数，不包含结尾空字符，C 错误；`char s[] = \"abc\";` 由初始化器推导长度为 4，D 正确。常见误区：以为 `strlen` 会把结尾空字符计入长度，或以为 `char s[3] = \"abc\"` 只是少个空字符但仍然合法。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 11
+  },
+  {
+    "slug": "ch2-q12",
+    "chapter": 2,
+    "type": "multiple",
+    "difficulty": "hard",
+    "stem": "关于数组与函数，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "数组作为函数实参时会退化为指向首元素的指针"
+      },
+      {
+        "id": "B",
+        "text": "在形参为 `int arr[10]` 的函数内部，`sizeof(arr)` 等于 40（假设 `int` 为 4 字节）"
+      },
+      {
+        "id": "C",
+        "text": "`void f(int arr[10])` 与 `void f(int* arr)` 声明的是同一个函数"
+      },
+      {
+        "id": "D",
+        "text": "两个数组可以用 `==` 直接比较内容是否相同"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": "数组作为函数实参时退化为指向首元素的指针，A 正确；因此 `void f(int arr[10])` 与 `void f(int* arr)` 是同一个函数声明，C 正确。B 错误：函数内部 `arr` 是指针，`sizeof(arr)` 是指针大小，不是 40。D 错误：数组名比较的是地址，要比较内容需要逐元素比较或使用算法。常见误区：把形参的 `[10]` 当成函数能感知的数组长度。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 12
+  },
+  {
+    "slug": "ch2-q13",
+    "chapter": 2,
+    "type": "output",
+    "difficulty": "easy",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nvoid addOne(int& x) {\n    ++x;\n}\n\nvoid addTwo(int x) {\n    x += 2;\n}\n\nint main() {\n    int a = 5;\n    addOne(a);\n    addTwo(a);\n    std::cout << a;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "6"
+    ],
+    "explanation": "`addOne` 的参数是 `int&`（引用），`++x` 直接修改调用者的 `a`，`a` 从 `5` 变成 `6`；`addTwo` 的参数是值传递，函数内修改的是副本，不影响 `a`。因此输出 `6`。常见误区：以为两次调用都会修改 `a` 而答 `8`，或以为引用参数也会拷贝。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 13
+  },
+  {
+    "slug": "ch2-q14",
+    "chapter": 2,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nvoid twice(int a[], int n) {\n    for (int i = 0; i < n; ++i) {\n        a[i] *= 2;\n    }\n}\n\nint main() {\n    int a[5] = {1, 2, 3, 4, 5};\n    twice(a, 5);\n    int s = 0;\n    for (int i = 0; i < 5; i += 2) {\n        s += a[i];\n    }\n    std::cout << s;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "18"
+    ],
+    "explanation": "`twice` 接收到指向数组首元素的指针，循环把每个元素翻倍，原数组变为 `{2, 4, 6, 8, 10}`。主函数中 `i` 取 `0、2、4`，累加 `2 + 6 + 10 = 18`。输出 `18`。常见误区：以为数组按值传递、函数内修改不影响原数组；或把 `i += 2` 误看成遍历所有元素。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 14
+  },
+  {
+    "slug": "ch2-q15",
+    "chapter": 2,
+    "type": "output",
+    "difficulty": "hard",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n\nvoid f(int n) {\n    if (n == 0) {\n        return;\n    }\n    std::cout << n;\n    f(n - 1);\n    std::cout << n;\n}\n\nint main() {\n    f(3);\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "321123"
+    ],
+    "explanation": "`f(3)` 先输出 `3`，递归调用 `f(2)`；`f(2)` 先输出 `2`，调用 `f(1)`；`f(1)` 先输出 `1`，调用 `f(0)` 立即返回，然后 `f(1)` 输出 `1`，回到 `f(2)` 输出 `2`，回到 `f(3)` 输出 `3`。所以输出 `321123`。常见误区：只看到递归前的输出而答 `321`，或忽略递归返回后的语句。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 15
+  },
+  {
+    "slug": "ch2-q16",
+    "chapter": 2,
+    "type": "code",
+    "difficulty": "easy",
+    "stem": "编写一个递归函数计算 `n!`（`n` 为非负整数，且 `0 <= n <= 20`）。`0!` 定义为 `1`。\n\n**输入格式**：一个整数 `n`。\n\n**输出格式**：一个整数，表示 `n!`。\n\n**示例**：\n\n```text\n输入：5\n输出：120\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "递归函数以 `n <= 1` 为终止条件返回 `1`，否则返回 `n * factorial(n - 1)`。用 `long long` 保存结果，才能容纳 `20!`（约 `2.43e18`，在 64 位有符号整数范围内）。`0!` 和 `1!` 都由终止条件返回 `1`。常见错误：用 `int` 计算导致 `13!` 起溢出；或忘记终止条件造成无限递归。",
+    "hints": [
+      "先写终止条件：n 为 0 或 1 时返回 1。",
+      "递归关系是 n! = n * (n - 1)!。",
+      "结果可能超过 int 范围，使用 long long。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nlong long factorial(int n) {\n    if (n <= 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    std::cout << factorial(n) << std::endl;\n    return 0;\n}\n```",
+    "order_index": 16
+  },
+  {
+    "slug": "ch2-q17",
+    "chapter": 2,
+    "type": "code",
+    "difficulty": "medium",
+    "stem": "从标准输入读入一行文本（可能包含空格），判断忽略所有空格并将字母统一转为小写后，文本是否为回文。是则输出 `Yes`，否则输出 `No`。\n\n**输入格式**：一行文本（可能包含空格）。\n\n**输出格式**：`Yes` 或 `No`。\n\n**示例**：\n\n```text\n输入：Never odd or even\n输出：Yes\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "先用 `std::getline` 读入整行，遍历字符：遇到空格跳过，其余字符用 `std::tolower` 转小写后拼成 `cleaned`。再用双指针从两端向中间比较，全部相等则输出 `Yes`，否则输出 `No`。`std::tolower` 的参数要先转换为 `unsigned char`，避免负值字符导致未定义行为。常见错误：用 `cin >>` 只读到第一个空格；或只处理大写/小写一种情况。",
+    "hints": [
+      "用 `std::getline` 读入整行，因为输入可能包含空格。",
+      "遍历字符，跳过空格，用 `std::tolower` 转成小写。",
+      "用双指针从两端向中间比较，或把清理后的字符串反转后再比较。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n#include <string>\n#include <cctype>\n\nint main() {\n    std::string line;\n    std::getline(std::cin, line);\n\n    std::string cleaned;\n    for (char ch : line) {\n        if (ch == ' ') {\n            continue;\n        }\n        cleaned += static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));\n    }\n\n    int left = 0;\n    int right = static_cast<int>(cleaned.size()) - 1;\n    bool palindrome = true;\n    while (left < right) {\n        if (cleaned[left] != cleaned[right]) {\n            palindrome = false;\n            break;\n        }\n        ++left;\n        --right;\n    }\n\n    std::cout << (palindrome ? \"Yes\" : \"No\") << std::endl;\n    return 0;\n}\n```",
+    "order_index": 17
+  },
+  {
+    "slug": "ch3-q01",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "关于指针与引用的区别，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "引用在定义时必须初始化，并且一旦绑定就不能再绑定到其他对象"
+      },
+      {
+        "id": "B",
+        "text": "引用可以通过赋值重新绑定到另一个对象"
+      },
+      {
+        "id": "C",
+        "text": "指针不能保存 nullptr"
+      },
+      {
+        "id": "D",
+        "text": "对引用使用 sizeof 得到的是引用本身的大小，与所引用的对象无关"
+      }
+    ],
+    "answer": "A",
+    "explanation": "A 正确：引用在定义时必须初始化，绑定后不能改为引用另一个对象，之后的赋值都是对原对象的赋值。B 错误：引用不能重新绑定。C 错误：指针可以为 nullptr，表示不指向任何对象。D 错误：sizeof(引用) 得到的是被引用类型的大小，例如 int& 得到 sizeof(int)，语言层面并不保证引用有独立存储。常见误区是把“引用是别名”理解成“引用可以像指针一样换指向”。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 1
+  },
+  {
+    "slug": "ch3-q02",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "阅读下面的代码：\n\n```cpp\nint a = 10, b = 20;\nconst int* p1 = &a;   // 指向常量的指针\nint* const p2 = &a;   // 常量指针\n```\n\n下列哪条语句能够通过编译？",
+    "options": [
+      {
+        "id": "A",
+        "text": "*p1 = 100;"
+      },
+      {
+        "id": "B",
+        "text": "p1 = &b;"
+      },
+      {
+        "id": "C",
+        "text": "p2 = &b;"
+      },
+      {
+        "id": "D",
+        "text": "const int* const p3 = &a; p3 = &b;"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：const int* 表示“指向的内容只读”，指针本身可以改指向，所以 p1 = &b 合法。A 错误：*p1 是 const int，不能赋值。C 错误：int* const 表示“指针本身只读”，p2 不能改指向。D 错误：p3 是 const 指针且指向 const，同样不能改指向。记忆口诀：const 在 * 左边修饰所指对象，在 * 右边修饰指针本身。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 2
+  },
+  {
+    "slug": "ch3-q03",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "阅读下面的代码（假设 int 占 4 字节，指针在 64 位平台占 8 字节）：\n\n```cpp\n#include <iostream>\nvoid f(int arr[]) {\n    std::cout << sizeof(arr);\n}\nint main() {\n    int a[10];\n    std::cout << sizeof(a) << \" \";\n    f(a);\n}\n```\n\n关于 sizeof(a) 与 sizeof(arr) 的说法，正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "两者都等于 40"
+      },
+      {
+        "id": "B",
+        "text": "sizeof(a) 等于 40，sizeof(arr) 等于指针大小 8"
+      },
+      {
+        "id": "C",
+        "text": "sizeof(arr) 等于 40，因为数组传参不会退化"
+      },
+      {
+        "id": "D",
+        "text": "代码编译错误，数组不能作为函数参数"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：a 是真正的数组，sizeof(a) = 10 * 4 = 40；而形参 int arr[] 等价于 int* arr，数组名作实参时退化为指向首元素的指针，所以 sizeof(arr) 是指针大小 8。A 错误：函数形参已经退化。C 错误：数组作函数参数一定会退化为指针，函数内部无法用 sizeof 求数组长度。D 错误：数组可以作为参数，只是会退化。常见误区：在函数里用 sizeof(arr) / sizeof(arr[0]) 求长度，结果必然错误。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 3
+  },
+  {
+    "slug": "ch3-q04",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "阅读下面的代码：\n\n```cpp\nint* p = new int[10];\ndelete p;\n```\n\n关于这段代码，说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "完全正确，delete 会自动识别并释放整个数组"
+      },
+      {
+        "id": "B",
+        "text": "应使用 delete[] p，用 delete 释放 new[] 分配的内存是未定义行为"
+      },
+      {
+        "id": "C",
+        "text": "必须改用 free(p)，delete 不能释放数组"
+      },
+      {
+        "id": "D",
+        "text": "new int[10] 会编译失败，应写成 new int(10)"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：new[] 必须与 delete[] 配对，delete 只能释放 new 分配的单个对象。A 错误：delete 不会自动判断数组。C 错误：new 分配的内存只能用 delete/delete[] 释放，不能与 free 混用。D 错误：new int[10] 分配 10 个 int，语法合法；new int(10) 只是分配一个值为 10 的 int。常见误区是认为 delete 和 delete[] 可以混用，实际这是未定义行为，可能只调用第一个元素的析构函数或破坏堆。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 4
+  },
+  {
+    "slug": "ch3-q05",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "阅读下面的代码：\n\n```cpp\nint* getPtr() {\n    int x = 42;\n    return &x;\n}\n\nint& getRef() {\n    int x = 42;\n    return x;\n}\n```\n\n关于这两个函数的说法，正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "两者都安全，返回时 x 会被自动复制一份"
+      },
+      {
+        "id": "B",
+        "text": "两者都返回悬空指针/悬空引用，调用后使用是未定义行为"
+      },
+      {
+        "id": "C",
+        "text": "只有 getRef 不安全，getPtr 是安全的"
+      },
+      {
+        "id": "D",
+        "text": "代码无法编译，C++ 禁止返回局部变量的地址或引用"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：局部变量 x 在函数返回时生命周期结束，返回它的地址或引用都指向已销毁的对象，使用结果是未定义行为。A 错误：返回指针/引用不会复制对象。C 错误：两者同样危险。D 错误：多数编译器只会给出警告，代码仍可编译。注意区分：返回局部变量的值（按值返回）是安全的；const 引用绑定临时对象时的生命周期延长只发生在同一作用域内，不能靠函数返回局部引用实现。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 5
+  },
+  {
+    "slug": "ch3-q06",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "关于指针算术运算，下列说法错误的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "p + 1 前进 sizeof(*p) 个字节，而不是 1 个字节"
+      },
+      {
+        "id": "B",
+        "text": "同一数组内两个指针相减，结果是元素个数差，类型为 std::ptrdiff_t"
+      },
+      {
+        "id": "C",
+        "text": "任意两个指针都可以相加，结果表示两个地址之和"
+      },
+      {
+        "id": "D",
+        "text": "数组下标 a[i] 等价于 *(a + i)"
+      }
+    ],
+    "answer": "C",
+    "explanation": "C 是错误说法：指针相加没有意义，C++ 也没有定义两个指针相加的运算；指针只支持加/减整数，以及同一数组内两个指针相减。A 正确：指针算术以所指向类型为单位。B 正确：指针相减得到 ptrdiff_t，表示相隔的元素个数。D 正确：a[i] 的定义就是 *(a + i)。常见误区是把地址当普通整数做加法，或对不同数组的指针相减，后者同样是未定义行为。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 6
+  },
+  {
+    "slug": "ch3-q07",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "关于 C++11 引入的 nullptr，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "nullptr 是宏，本质上就是整数 0"
+      },
+      {
+        "id": "B",
+        "text": "nullptr 的类型是 std::nullptr_t，可以隐式转换为任意指针类型，但不能隐式转换为整数"
+      },
+      {
+        "id": "C",
+        "text": "nullptr 可以直接赋给 int 变量"
+      },
+      {
+        "id": "D",
+        "text": "对 nullptr 解引用会安全地得到 0"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：nullptr 是空指针字面量，类型为 std::nullptr_t，可隐式转换为任意指针类型（也可在条件中转为 bool），但不能隐式转换为整数类型。A 错误：NULL 通常是宏（常定义为 0 或 ((void*)0)），nullptr 不是宏。C 错误：int n = nullptr; 无法编译。D 错误：解引用空指针是未定义行为，通常会崩溃。常见误区是继续用 NULL 代替 nullptr，可能在重载解析时产生歧义。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 7
+  },
+  {
+    "slug": "ch3-q08",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "hard",
+    "stem": "阅读下面的代码：\n\n```cpp\nint a = 1;\nconst int& r1 = a * 2;\nint& r2 = a * 2;\n```\n\n关于这两行代码，说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "两行都能编译，r1 和 r2 都引用同一个临时对象"
+      },
+      {
+        "id": "B",
+        "text": "只有 r1 能编译；const 左值引用可以绑定右值并延长临时对象的生命周期，非 const 左值引用不能绑定右值"
+      },
+      {
+        "id": "C",
+        "text": "只有 r2 能编译，const 引用不能绑定表达式结果"
+      },
+      {
+        "id": "D",
+        "text": "两行都无法编译，引用只能绑定变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：a * 2 产生一个临时对象（右值），const int& 可以绑定它，并且临时对象的生命周期会延长到 r1 的生命周期结束；而 int& 是非 const 左值引用，不能绑定右值，所以 r2 那行编译失败。A 错误：r2 无法编译。C 错误：恰恰相反，const 引用可以绑定右值和临时对象。D 错误：const 引用绑定表达式是合法且常见的用法。常见误区是以为 const 引用只能引用 const 变量。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 8
+  },
+  {
+    "slug": "ch3-q09",
+    "chapter": 3,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "阅读下面的函数：\n\n```cpp\nvoid f() {\n    int* p = new int[100];\n    if (true) {\n        return;\n    }\n    delete[] p;\n}\n```\n\n每次调用 f() 会发生什么？",
+    "options": [
+      {
+        "id": "A",
+        "text": "每次调用都会造成内存泄漏，因为 return 跳过了 delete[]"
+      },
+      {
+        "id": "B",
+        "text": "return 时会自动执行后面的 delete[]，不会泄漏"
+      },
+      {
+        "id": "C",
+        "text": "编译错误，delete[] 不可达"
+      },
+      {
+        "id": "D",
+        "text": "会发生栈溢出，因为数组太大"
+      }
+    ],
+    "answer": "A",
+    "explanation": "A 正确：return 会立即结束函数，后面的 delete[] 永远不会执行，所以每次调用都会泄漏 100 个 int 占用的堆内存。B 错误：C++ 不会在 return 时自动执行后面的语句，只有析构函数会按作用域自动执行。C 错误：不可达语句通常只是警告，不是编译错误。D 错误：数组在堆上分配，不会导致栈溢出。正确做法是使用 RAII，例如 std::vector 或智能指针，让释放与作用域绑定。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 9
+  },
+  {
+    "slug": "ch3-q10",
+    "chapter": 3,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于 C++ 引用，下列说法正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "引用在定义时必须初始化"
+      },
+      {
+        "id": "B",
+        "text": "引用一旦绑定后，不能再绑定到其他对象"
+      },
+      {
+        "id": "C",
+        "text": "可以定义指向引用的指针"
+      },
+      {
+        "id": "D",
+        "text": "函数返回局部变量的引用会产生悬空引用"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "A、B、D 正确。A：引用没有“空引用”，定义时必须绑定对象。B：之后的赋值是对被引用对象赋值，不是重新绑定。D：局部变量在函数返回时销毁，返回其引用会悬空。C 错误：C++ 不允许“指向引用的指针”（引用不是对象），但允许“指针的引用”，写法是 int*&。常见误区是把 int*&（指针的引用）误认为 int&*（引用的指针）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 10
+  },
+  {
+    "slug": "ch3-q11",
+    "chapter": 3,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "下列哪些做法会导致悬空指针或未定义行为？",
+    "options": [
+      {
+        "id": "A",
+        "text": "delete p 之后继续解引用 p"
+      },
+      {
+        "id": "B",
+        "text": "函数返回局部变量的地址"
+      },
+      {
+        "id": "C",
+        "text": "对同一块 new 出来的内存 delete 两次"
+      },
+      {
+        "id": "D",
+        "text": "把指针赋值为 nullptr 后，用 if (p) 判断它"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A、B、C 会导致悬空指针或未定义行为。A：delete 后对象生命周期结束，p 成为悬空指针，再解引用是未定义行为，delete 后应置空。B：局部变量随函数返回销毁，返回的地址悬空。C：重复 delete 是双重释放，属于未定义行为。D 是安全做法：空指针在条件中转换为 false，可以用来判断指针是否有效。常见误区是以为 delete 会把指针自动置空，实际上 delete 后指针值不变，只是指向的内存已失效。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 11
+  },
+  {
+    "slug": "ch3-q12",
+    "chapter": 3,
+    "type": "multiple",
+    "difficulty": "hard",
+    "stem": "关于 RAII 与 C++11 智能指针，下列说法正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "RAII 的核心思想是把资源获取放在构造函数中，把资源释放放在析构函数中"
+      },
+      {
+        "id": "B",
+        "text": "std::unique_ptr 不能拷贝，但可以用 std::move 转移所有权"
+      },
+      {
+        "id": "C",
+        "text": "std::shared_ptr 通过引用计数管理对象的生命周期"
+      },
+      {
+        "id": "D",
+        "text": "使用智能指针后，任何情况下都不会出现悬空指针"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A、B、C 正确。A：RAII 利用对象生命周期自动管理资源，异常和提前 return 时也能正确释放。B：unique_ptr 独占所有权，拷贝被禁用，只能移动。C：shared_ptr 通过引用计数，计数归零时释放对象。D 错误：shared_ptr 可能出现循环引用导致泄漏；通过 get() 得到的裸指针仍可能在对象销毁后悬空；weak_ptr 正是用来观察而不延长生命周期的。常见误区是认为用了智能指针就完全不需要关心生命周期。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 12
+  },
+  {
+    "slug": "ch3-q13",
+    "chapter": 3,
+    "type": "output",
+    "difficulty": "easy",
+    "stem": "写出下面程序的输出（一行，数字之间用一个空格分隔）：\n\n```cpp\n#include <iostream>\nint main() {\n    int a[4] = {1, 2, 3, 4};\n    int* p = a;\n    int x = *p++;\n    int y = *p;\n    int z = *++p;\n    std::cout << x << \" \" << y << \" \" << z << std::endl;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "1 2 3"
+    ],
+    "explanation": "执行过程：p 初始指向 a[0]。*p++ 先取 *p 得到 1，然后 p 自增指向 a[1]，所以 x = 1；此时 *p 为 a[1] 的值 2，所以 y = 2；*++p 先让 p 自增到 a[2]，再解引用得到 3，所以 z = 3。最终输出 \"1 2 3\"。注意前置 ++ 先移动再取值，后置 ++ 先取值再移动。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 13
+  },
+  {
+    "slug": "ch3-q14",
+    "chapter": 3,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "写出下面程序的输出（一行，数字之间用一个空格分隔）：\n\n```cpp\n#include <iostream>\n#include <cstring>\nint main() {\n    char s[] = \"hello\";\n    const char* p = s;\n    std::cout << sizeof(s) << \" \"\n              << std::strlen(p) << \" \"\n              << sizeof(*p) << std::endl;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "6 5 1"
+    ],
+    "explanation": "执行过程：s 是用字符串字面量初始化的字符数组，编译器会自动在末尾加上 '\\0'，所以 sizeof(s) 为 6（5 个字符加 1 个终止符）。strlen(p) 统计到 '\\0' 之前的字符数，结果为 5，不包含终止符。p 的类型是 const char*，*p 的类型是 char，sizeof(char) 恒为 1。因此输出 \"6 5 1\"。常见错误是把 sizeof(s) 当成 5，或把 strlen 的结果算成 6。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 14
+  },
+  {
+    "slug": "ch3-q15",
+    "chapter": 3,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "写出下面程序的输出（一行，数字之间用一个空格分隔）：\n\n```cpp\n#include <iostream>\nvoid reset(int*& p) {\n    static int s = 9;\n    p = &s;\n}\nint main() {\n    int x = 3;\n    int* p = &x;\n    reset(p);\n    std::cout << *p << \" \" << x << std::endl;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "9 3"
+    ],
+    "explanation": "执行过程：形参 int*& p 是指针的引用，它与 main 中的 p 是同一个指针变量，因此在 reset 内执行 p = &s 会真正修改 main 中的 p，使其指向静态局部变量 s（值为 9，生命周期持续到程序结束，不会悬空）。x 本身没有被修改，仍为 3。所以 *p 为 9，x 为 3，输出 \"9 3\"。若形参写成 int* p（按值传递），函数内只修改副本，main 中的 p 仍指向 x，输出会是 \"3 3\"。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 15
+  },
+  {
+    "slug": "ch3-q16",
+    "chapter": 3,
+    "type": "code",
+    "difficulty": "easy",
+    "stem": "读入两个整数 a 和 b，使用指针作为函数参数实现交换，然后输出交换后的 a 和 b。\n\n输入格式：一行两个整数 a 和 b（-1000 ≤ a, b ≤ 1000），用空格分隔。\n\n输出格式：一行两个整数，表示交换后的 a 和 b，用空格分隔。\n\n示例：\n\n```text\n输入：3 5\n输出：5 3\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "本题考查指针作为函数参数。关键点是实参传 &a、&b，形参用 int* 接收，函数内通过 *p 读写目标对象。若形参写成 int a, int b（按值传递），交换的只是副本，调用者的变量不会改变。",
+    "hints": [
+      "调用时传入变量的地址，例如 swapByPointer(&a, &b)。",
+      "函数形参用 int*，函数体内用 *p 访问并修改目标变量。",
+      "交换两个值需要一个临时变量保存其中一个。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nvoid swapByPointer(int* a, int* b) {\n    int t = *a;\n    *a = *b;\n    *b = t;\n}\n\nint main() {\n    int a = 0, b = 0;\n    std::cin >> a >> b;\n    swapByPointer(&a, &b);\n    std::cout << a << \" \" << b << std::endl;\n    return 0;\n}\n```",
+    "order_index": 16
+  },
+  {
+    "slug": "ch3-q17",
+    "chapter": 3,
+    "type": "code",
+    "difficulty": "medium",
+    "stem": "读入 n 个整数存入数组，使用指针遍历数组，求最大值和最小值并输出。\n\n输入格式：第一行一个整数 n（1 ≤ n ≤ 100）；第二行 n 个整数（绝对值不超过 10000），用空格分隔。\n\n输出格式：一行两个整数，依次为最大值和最小值，用空格分隔。\n\n示例：\n\n```text\n输入：\n5\n3 8 -2 6 1\n输出：\n8 -2\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "本题考查指针遍历数组。用 int* p = a 指向首元素，初始把 *p 同时作为最大值和最小值，然后每次 ++p 移动到下一个元素并比较。数组名 a 会退化为指向首元素的指针，因此也可以直接写 int* p = a;。注意不要越界：循环从下标 1 开始，共比较 n - 1 次。",
+    "hints": [
+      "先读入 n 和全部元素，再让指针指向数组首元素。",
+      "把第一个元素同时初始化为 maxVal 和 minVal。",
+      "每次先 ++p 再比较，循环 n - 1 次即可避免越界。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    int a[100];\n    for (int i = 0; i < n; ++i) {\n        std::cin >> a[i];\n    }\n\n    int* p = a;\n    int maxVal = *p;\n    int minVal = *p;\n    for (int i = 1; i < n; ++i) {\n        ++p;\n        if (*p > maxVal) maxVal = *p;\n        if (*p < minVal) minVal = *p;\n    }\n\n    std::cout << maxVal << \" \" << minVal << std::endl;\n    return 0;\n}\n```",
+    "order_index": 17
+  },
+  {
+    "slug": "ch3-q18",
+    "chapter": 3,
+    "type": "code",
+    "difficulty": "hard",
+    "stem": "实现一个用 RAII 管理动态数组的类 IntArray，要求：\n\n1. 构造函数接收数组长度 n，用 new int[n] 分配内存；\n2. 析构函数用 delete[] 释放内存；\n3. 实现拷贝构造函数，进行深拷贝；\n4. 提供 operator[] 以便读写元素；\n5. 在主函数中读入 n 个整数，创建对象 a；用 `IntArray b = a;` 拷贝出 b；把 b 的第 0 个元素改为 999；输出 a 的第 0 个元素和 b 的第 0 个元素。\n\n输入格式：第一行一个整数 n（1 ≤ n ≤ 100）；第二行 n 个整数。\n\n输出格式：一行两个整数，分别为 a[0] 和 b[0]，用空格分隔。\n\n示例：\n\n```text\n输入：\n3\n5 6 7\n输出：\n5 999\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "本题考查 RAII 与深拷贝。构造函数获取资源，析构函数释放资源，即使发生异常也能正确清理。若使用编译器生成的默认拷贝构造函数，b.data 与 a.data 会指向同一块内存（浅拷贝），修改 b 会影响 a，并且析构时会对同一块内存 delete[] 两次，造成未定义行为。因此必须在拷贝构造中重新 new 一块内存并逐个复制元素。operator[] 返回引用，才能支持 b[0] = 999 这样的写操作。",
+    "hints": [
+      "拷贝构造函数中先分配与原对象相同大小的新内存，再逐个复制元素。",
+      "析构函数使用 delete[] data，与构造函数中的 new int[n] 配对。",
+      "operator[] 返回 int&，这样既能读也能写元素。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nclass IntArray {\nprivate:\n    int* data;\n    int n;\n\npublic:\n    IntArray(int size) : data(new int[size]), n(size) {\n    }\n\n    IntArray(const IntArray& other) : data(new int[other.n]), n(other.n) {\n        for (int i = 0; i < n; ++i) {\n            data[i] = other.data[i];\n        }\n    }\n\n    ~IntArray() {\n        delete[] data;\n    }\n\n    int& operator[](int index) {\n        return data[index];\n    }\n\n    const int& operator[](int index) const {\n        return data[index];\n    }\n};\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n\n    IntArray a(n);\n    for (int i = 0; i < n; ++i) {\n        std::cin >> a[i];\n    }\n\n    IntArray b = a;\n    b[0] = 999;\n\n    std::cout << a[0] << \" \" << b[0] << std::endl;\n    return 0;\n}\n```",
+    "order_index": 18
+  },
+  {
+    "slug": "ch4-q01",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "阅读下面的代码：\n\n```cpp\nclass A {\n    int x;\npublic:\n    int y;\n};\n\nstruct B {\n    int x;\n    int y;\n};\n```\n\n关于成员访问权限，说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "A::x 和 A::y 都是 private"
+      },
+      {
+        "id": "B",
+        "text": "A::x 是 private，A::y 是 public；B 的成员默认都是 public"
+      },
+      {
+        "id": "C",
+        "text": "A::x 是 public，A::y 是 private"
+      },
+      {
+        "id": "D",
+        "text": "struct 的成员默认是 private"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：class 的默认访问权限是 private，所以 A::x 是 private；public: 之后的 A::y 是 public。struct 的默认访问权限是 public，所以 B 的成员默认都是 public。A、C 错在把 class 的默认权限记反。D 错误：struct 默认 public，class 默认 private，这是二者在 C++ 中的主要区别（此外继承的默认权限也分别是 public 和 private）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 1
+  },
+  {
+    "slug": "ch4-q02",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "阅读下面的代码：\n\n```cpp\nclass A {\n    const int x;\npublic:\n    A(int v) { x = v; }\n};\n```\n\n这段代码无法通过编译，原因是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "代码没有任何问题，可以正常编译"
+      },
+      {
+        "id": "B",
+        "text": "const 成员必须在构造函数的初始化列表中初始化，在构造函数体内赋值会编译失败"
+      },
+      {
+        "id": "C",
+        "text": "const 成员只能在类内声明时初始化，初始化列表也不行"
+      },
+      {
+        "id": "D",
+        "text": "只要把 x 改成 static 成员就能在构造函数体内赋值"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：const 数据成员和引用成员都必须通过构造函数初始化列表初始化，因为进入构造函数体时它们已经“初始化”完毕，函数体内的 x = v 变成了对只读成员的赋值。A 错误：代码会编译失败，提示 const 成员未初始化或不可赋值。C 错误：初始化列表正是初始化 const 成员的标准位置。D 错误：static 成员不属于对象，也不能在构造函数初始化列表中初始化，需要类外定义（C++17 可用 inline）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 2
+  },
+  {
+    "slug": "ch4-q03",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "阅读下面的代码：\n\n```cpp\nclass A {\npublic:\n    A() {}\n    ~A() {}\n};\n\nclass B {\n    A a;\npublic:\n    B() {}\n    ~B() {}\n};\n```\n\n关于 B 对象的构造与析构顺序，说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "先执行 B 的构造函数体，再构造成员 a"
+      },
+      {
+        "id": "B",
+        "text": "先构造成员 a，再执行 B 的构造函数体；析构时先执行 B 的析构函数体，再析构 a"
+      },
+      {
+        "id": "C",
+        "text": "构造和析构都先处理成员 a"
+      },
+      {
+        "id": "D",
+        "text": "顺序由编译器决定，属于未定义行为"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：创建 B 对象时，先按声明顺序构造所有成员（a），再执行 B 构造函数体；销毁时顺序完全相反，先执行 B 析构函数体，再按逆序析构成员 a。A、C 把构造或析构顺序说反了。D 错误：C++ 标准明确规定了该顺序，不是未定义行为。常见误区是只看构造函数体的执行顺序，忽略成员和基类子对象会先于函数体构造。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 3
+  },
+  {
+    "slug": "ch4-q04",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "阅读下面的代码：\n\n```cpp\n#include <cstring>\n\nclass S {\n    char* p;\npublic:\n    S(const char* s) {\n        int n = static_cast<int>(std::strlen(s));\n        p = new char[n + 1];\n        for (int i = 0; i <= n; ++i) {\n            p[i] = s[i];\n        }\n    }\n    ~S() { delete[] p; }\n};\n\nvoid f() {\n    S a(\"hi\");\n    S b = a;\n}\n```\n\n执行 f() 会发生什么问题？",
+    "options": [
+      {
+        "id": "A",
+        "text": "默认拷贝构造函数会深拷贝，一切正常"
+      },
+      {
+        "id": "B",
+        "text": "默认拷贝构造逐成员复制指针，a.p 和 b.p 指向同一块内存，析构时 delete[] 两次，导致未定义行为"
+      },
+      {
+        "id": "C",
+        "text": "编译器会自动生成深拷贝，因此不会出问题"
+      },
+      {
+        "id": "D",
+        "text": "b 不会调用析构函数，所以不会出问题"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：类没有自定义拷贝构造函数时，编译器生成的是逐成员拷贝，p 指针被原样复制，两个对象指向同一块堆内存。f() 结束时先析构 b 再析构 a，同一块内存被 delete[] 两次，属于未定义行为（典型表现是崩溃）。A、C 错误：默认拷贝构造只做浅拷贝，不会自动分配新内存。D 错误：由对象 b 的作用域结束会调用其析构函数。正确做法是遵循“三法则”：自定义析构函数时通常也要自定义拷贝构造和拷贝赋值，或改用 std::string / 智能指针。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 4
+  },
+  {
+    "slug": "ch4-q05",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "阅读下面的代码：\n\n```cpp\n#include <iostream>\n\nclass Base {\npublic:\n    void show() { std::cout << \"Base\"; }\n    virtual ~Base() {}\n};\n\nclass Derived : public Base {\npublic:\n    void show() { std::cout << \"Derived\"; }\n};\n\nint main() {\n    Base* p = new Derived();\n    p->show();\n    delete p;\n}\n```\n\n程序输出是什么？",
+    "options": [
+      {
+        "id": "A",
+        "text": "Derived，因为 p 实际指向派生类对象"
+      },
+      {
+        "id": "B",
+        "text": "Base，因为 show 不是虚函数，按指针的静态类型 Base 静态绑定"
+      },
+      {
+        "id": "C",
+        "text": "编译错误，派生类不能定义与基类同名的函数"
+      },
+      {
+        "id": "D",
+        "text": "运行时崩溃，因为调用了不存在的函数"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：show 没有声明为 virtual，调用时按指针的静态类型 Base 在编译期绑定，所以调用 Base::show，输出 Base。A 错误：只有虚函数才会根据动态类型进行动态绑定。C 错误：派生类可以定义与基类同名的非虚函数（会隐藏基类版本，这里通过 Base* 调用不受影响）。D 错误：函数存在且可正常调用；代码中基类析构函数已是 virtual，delete p 也是安全的。常见误区是以为“指向派生类对象”就一定调用派生类函数，忽略 virtual 关键字。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 5
+  },
+  {
+    "slug": "ch4-q06",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "阅读下面的代码：\n\n```cpp\nclass Base {\npublic:\n    ~Base() {}\n};\n\nclass Derived : public Base {\n    int* data;\npublic:\n    Derived() { data = new int[10]; }\n    ~Derived() { delete[] data; }\n};\n\nint main() {\n    Base* p = new Derived();\n    delete p;\n}\n```\n\n执行 delete p 会发生什么？",
+    "options": [
+      {
+        "id": "A",
+        "text": "正确调用 Derived 的析构函数并释放 data"
+      },
+      {
+        "id": "B",
+        "text": "只调用 Base::~Base，Derived::~Derived 不会执行，造成内存泄漏且行为未定义"
+      },
+      {
+        "id": "C",
+        "text": "编译错误，因为析构函数不能是虚函数"
+      },
+      {
+        "id": "D",
+        "text": "delete 会自动识别动态类型并调用 Derived 的析构函数"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：Base 的析构函数不是虚函数，通过 Base* 执行 delete 时只按静态类型调用 Base::~Base，Derived::~Derived 不会执行，data 指向的数组泄漏，同时标准规定这种删除是未定义行为。A、D 错误：非虚析构函数不会动态绑定。C 错误：析构函数可以是虚函数，而且作为多态基类时通常必须声明为 virtual。正确写法是 `virtual ~Base() {}`。只要类可能被基类指针删除，就应提供虚析构函数。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 6
+  },
+  {
+    "slug": "ch4-q07",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "hard",
+    "stem": "阅读下面的代码：\n\n```cpp\n#include <iostream>\n\nclass Base {\npublic:\n    Base() { show(); }\n    virtual void show() { std::cout << \"Base\"; }\n    virtual ~Base() {}\n};\n\nclass Derived : public Base {\npublic:\n    void show() override { std::cout << \"Derived\"; }\n};\n\nint main() {\n    Derived d;\n}\n```\n\n程序输出是什么？",
+    "options": [
+      {
+        "id": "A",
+        "text": "Base"
+      },
+      {
+        "id": "B",
+        "text": "Derived"
+      },
+      {
+        "id": "C",
+        "text": "BaseDerived"
+      },
+      {
+        "id": "D",
+        "text": "编译错误"
+      }
+    ],
+    "answer": "A",
+    "explanation": "A 正确：构造 Derived 对象时先构造 Base 子对象，此时 Derived 部分尚未构造，对象的虚函数表指针指向 Base 的虚表，因此在 Base 构造函数中调用虚函数 show() 只会调用 Base::show，输出 Base。B 错误：构造和析构期间不会发生向派生类的动态绑定。C 错误：只调用一次 show。D 错误：代码合法（override 与基类虚函数匹配）。常见误区是认为构造函数中调用虚函数也会多态；同理，在析构函数中调用虚函数也只会调用当前类版本。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 7
+  },
+  {
+    "slug": "ch4-q08",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "关于类的 static 数据成员，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "每个对象各有一份独立的 static 数据成员"
+      },
+      {
+        "id": "B",
+        "text": "static 数据成员属于类本身，所有对象共享同一份；通常需要在类外定义"
+      },
+      {
+        "id": "C",
+        "text": "static 数据成员只能通过对象访问，不能用类名访问"
+      },
+      {
+        "id": "D",
+        "text": "static 成员函数可以直接访问非静态数据成员"
+      }
+    ],
+    "answer": "B",
+    "explanation": "B 正确：static 数据成员不属于某个具体对象，而是属于类，所有对象共享同一份；C++17 之前通常需要在类外写 `int C::count = 0;` 进行定义（C++17 起可用 inline static 在类内定义）。A 错误：普通数据成员才是每个对象一份。C 错误：可以用 `类名::成员` 访问，也可以通过对象访问。D 错误：static 成员函数没有 this 指针，不能直接访问非静态成员，除非显式传入对象。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 8
+  },
+  {
+    "slug": "ch4-q09",
+    "chapter": 4,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "关于 C++ 中的 friend（友元），下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "友元关系可以被派生类继承"
+      },
+      {
+        "id": "B",
+        "text": "友元关系是双向的，A 是 B 的友元，则 B 也是 A 的友元"
+      },
+      {
+        "id": "C",
+        "text": "友元函数不是类的成员函数，但可以访问该类的 private 和 protected 成员"
+      },
+      {
+        "id": "D",
+        "text": "在类中声明友元会把被访问的成员变成 public"
+      }
+    ],
+    "answer": "C",
+    "explanation": "C 正确：friend 函数不是类成员，没有 this 指针，但被授予访问该类 private/protected 成员的特权。A 错误：友元关系不能被继承。B 错误：友元关系是单向的，不具有对称性。D 错误：友元只是授予访问权限，不改变成员的访问级别。常见误区还包括认为友元关系可以传递（A 是 B 的友元、B 是 C 的友元，并不意味着 A 是 C 的友元）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 9
+  },
+  {
+    "slug": "ch4-q10",
+    "chapter": 4,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于虚函数与多态，下列说法正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "虚函数通常通过虚函数表（vtable）实现动态绑定"
+      },
+      {
+        "id": "B",
+        "text": "派生类重写虚函数时函数签名要兼容，可以用 override 让编译器检查"
+      },
+      {
+        "id": "C",
+        "text": "构造函数可以声明为虚函数"
+      },
+      {
+        "id": "D",
+        "text": "通过基类指针或引用调用虚函数时会发生动态绑定"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "A、B、D 正确。A：含虚函数的类通常有一个虚函数表，对象中保存指向该表的指针，运行时据此找到实际函数。B：签名不兼容时 override 会报错，能避免“本想重写却写成了新函数”。D：基类指针/引用调用虚函数时，根据对象的动态类型决定调用哪个版本。C 错误：构造函数不能是虚函数，因为创建对象时虚函数表指针尚未建立，无法完成动态分派；析构函数则可以是虚函数。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 10
+  },
+  {
+    "slug": "ch4-q11",
+    "chapter": 4,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于 const 成员函数与构造函数初始化列表，下列说法正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "const 成员函数不能修改非 mutable 的普通数据成员"
+      },
+      {
+        "id": "B",
+        "text": "const 对象只能调用 const 成员函数"
+      },
+      {
+        "id": "C",
+        "text": "引用成员必须在构造函数初始化列表中初始化"
+      },
+      {
+        "id": "D",
+        "text": "初始化列表严格按照书写顺序执行"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A、B、C 正确。A：const 成员函数中 this 的类型是 const 指针，不能修改普通成员，mutable 成员例外。B：const 对象只能调用 const 成员函数，否则会破坏常量性。C：引用成员必须绑定对象，只能在初始化列表中初始化。D 错误：成员的实际初始化顺序由它们在类中的声明顺序决定，与初始化列表的书写顺序无关；两者不一致时编译器可能给出警告。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 11
+  },
+  {
+    "slug": "ch4-q12",
+    "chapter": 4,
+    "type": "multiple",
+    "difficulty": "hard",
+    "stem": "关于纯虚函数与抽象类，下列说法正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "含有纯虚函数的类是抽象类，不能直接创建对象"
+      },
+      {
+        "id": "B",
+        "text": "纯虚函数可以提供函数体，但含有纯虚函数的类仍然是抽象类"
+      },
+      {
+        "id": "C",
+        "text": "派生类只有实现了全部纯虚函数后才能实例化"
+      },
+      {
+        "id": "D",
+        "text": "抽象类不能有构造函数"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A、B、C 正确。A：纯虚函数使类成为抽象类，不能创建该类的对象，但可以定义指向它的指针或引用。B：纯虚函数可以有定义（例如提供默认实现），只要类中还有未覆盖的纯虚函数，类仍是抽象的。C：派生类必须覆盖所有纯虚函数，否则它自身也是抽象类，不能实例化。D 错误：抽象类可以有构造函数，用于初始化基类子对象，派生类构造时会调用它。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 12
+  },
+  {
+    "slug": "ch4-q13",
+    "chapter": 4,
+    "type": "output",
+    "difficulty": "easy",
+    "stem": "写出下面程序的输出（一行，不要添加空格）：\n\n```cpp\n#include <iostream>\n\nclass A {\npublic:\n    A() { std::cout << \"A\"; }\n    ~A() { std::cout << \"~A\"; }\n};\n\nclass B {\n    A a;\npublic:\n    B() { std::cout << \"B\"; }\n    ~B() { std::cout << \"~B\"; }\n};\n\nint main() {\n    B b;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "AB~B~A"
+    ],
+    "explanation": "执行过程：创建 B 对象 b 时，先构造成员 a，输出 A；再执行 B 构造函数体，输出 B。main 结束时销毁 b，先执行 B 析构函数体，输出 ~B；再析构成员 a，输出 ~A。因此完整输出为 \"AB~B~A\"。注意析构顺序与构造顺序完全相反，且成员先于构造函数体构造、后于析构函数体析构。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 13
+  },
+  {
+    "slug": "ch4-q14",
+    "chapter": 4,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "写出下面程序的输出（一行，不要添加空格）：\n\n```cpp\n#include <iostream>\n\nclass Base {\npublic:\n    virtual void f() { std::cout << \"B\"; }\n    virtual ~Base() { std::cout << \"~B\"; }\n};\n\nclass Derived : public Base {\npublic:\n    void f() override { std::cout << \"D\"; }\n    ~Derived() override { std::cout << \"~D\"; }\n};\n\nint main() {\n    Base* p = new Derived();\n    p->f();\n    delete p;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "D~D~B"
+    ],
+    "explanation": "执行过程：p->f() 是虚函数调用，p 实际指向 Derived 对象，动态绑定调用 Derived::f，输出 D。delete p 时因为 Base 的析构函数是虚函数，先调用 Derived::~Derived，输出 ~D，然后自动调用 Base::~Base，输出 ~B。最终输出 \"D~D~B\"。若基类析构函数不是 virtual，则 Derived 的析构不会执行，且行为未定义。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 14
+  },
+  {
+    "slug": "ch4-q15",
+    "chapter": 4,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "写出下面程序的输出（一行，两个数字之间用一个空格分隔）：\n\n```cpp\n#include <iostream>\n\nclass Counter {\npublic:\n    static int alive;\n    Counter() { ++alive; }\n    ~Counter() { --alive; }\n};\n\nint Counter::alive = 0;\n\nint main() {\n    Counter a;\n    {\n        Counter b;\n        Counter c;\n        std::cout << Counter::alive;\n    }\n    std::cout << \" \" << Counter::alive << std::endl;\n    return 0;\n}\n```",
+    "options": null,
+    "answer": [
+      "3 1"
+    ],
+    "explanation": "执行过程：Counter::alive 是所有对象共享的静态成员，初始为 0。构造 a 后 alive = 1；进入内层作用域，构造 b、c 后 alive = 3，此时输出 3。离开内层作用域时按构造的逆序析构 c 和 b，alive 减到 1。最后输出空格和 1，因此结果为 \"3 1\"。a 在 main 结束时才析构。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 15
+  },
+  {
+    "slug": "ch4-q16",
+    "chapter": 4,
+    "type": "code",
+    "difficulty": "easy",
+    "stem": "定义一个矩形类 Rectangle，包含两个 int 成员 width 和 height，提供带参数的构造函数和计算面积的 const 成员函数 area()。读入矩形的宽和高，输出其面积。\n\n输入格式：一行两个整数 width 和 height（1 ≤ width, height ≤ 1000），用空格分隔。\n\n输出格式：一行一个整数，表示面积。\n\n示例：\n\n```text\n输入：3 4\n输出：12\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "本题考查类的基本定义、构造函数和 const 成员函数。构造函数用初始化列表给 width 和 height 赋值，area() 不修改成员，声明为 const 后 const 对象也能调用。面积用 int 计算即可，输入范围保证不会溢出（1000 * 1000 = 1000000）。",
+    "hints": [
+      "把 width 和 height 声明为 private 成员，构造函数用初始化列表初始化。",
+      "area() 只读成员，应声明为 const 成员函数。",
+      "在主函数中读入两个整数，创建 Rectangle 对象并输出 area()。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nclass Rectangle {\nprivate:\n    int width;\n    int height;\n\npublic:\n    Rectangle(int w, int h) : width(w), height(h) {\n    }\n\n    int area() const {\n        return width * height;\n    }\n};\n\nint main() {\n    int w = 0, h = 0;\n    std::cin >> w >> h;\n\n    Rectangle rect(w, h);\n    std::cout << rect.area() << std::endl;\n    return 0;\n}\n```",
+    "order_index": 16
+  },
+  {
+    "slug": "ch4-q17",
+    "chapter": 4,
+    "type": "code",
+    "difficulty": "medium",
+    "stem": "使用多态计算若干图形的总面积。定义抽象基类 Shape，包含纯虚函数 `virtual int area() const = 0;` 和虚析构函数；定义 Rectangle（矩形，参数为宽和高）和 Square（正方形，参数为边长）两个派生类，分别实现 area()。\n\n输入格式：第一行一个整数 n（1 ≤ n ≤ 100），表示图形个数。接下来 n 行，每行以字符开头：`R w h` 表示矩形，`S s` 表示正方形，所有参数为不超过 1000 的正整数。\n\n输出格式：一行一个整数，表示所有图形面积之和。\n\n示例：\n\n```text\n输入：\n3\nR 2 3\nS 4\nR 1 5\n输出：\n27\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "本题考查抽象类、虚函数与虚析构。用 Shape* 数组保存 new 出来的派生类对象，通过 shapes[i]->area() 多态调用各自的 area()，面积累加后逐个 delete。由于 Shape 的析构函数是虚函数，delete 基类指针会正确调用派生类析构。若不使用虚析构，通过基类指针删除派生对象是未定义行为，且派生类资源可能泄漏。",
+    "hints": [
+      "Shape 中的 area() 声明为纯虚函数，析构函数声明为 virtual。",
+      "用 Shape* 数组保存 new Rectangle 和 new Square 的结果。",
+      "累加时调用 shapes[i]->area()，最后对每个指针 delete。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n\nclass Shape {\npublic:\n    virtual int area() const = 0;\n    virtual ~Shape() {\n    }\n};\n\nclass Rectangle : public Shape {\nprivate:\n    int width;\n    int height;\n\npublic:\n    Rectangle(int w, int h) : width(w), height(h) {\n    }\n\n    int area() const override {\n        return width * height;\n    }\n};\n\nclass Square : public Shape {\nprivate:\n    int side;\n\npublic:\n    explicit Square(int s) : side(s) {\n    }\n\n    int area() const override {\n        return side * side;\n    }\n};\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n\n    Shape* shapes[100] = {nullptr};\n    for (int i = 0; i < n; ++i) {\n        char type = '\\0';\n        std::cin >> type;\n        if (type == 'R') {\n            int w = 0, h = 0;\n            std::cin >> w >> h;\n            shapes[i] = new Rectangle(w, h);\n        } else {\n            int s = 0;\n            std::cin >> s;\n            shapes[i] = new Square(s);\n        }\n    }\n\n    int total = 0;\n    for (int i = 0; i < n; ++i) {\n        total += shapes[i]->area();\n        delete shapes[i];\n    }\n\n    std::cout << total << std::endl;\n    return 0;\n}\n```",
+    "order_index": 17
+  },
+  {
+    "slug": "ch4-q18",
+    "chapter": 4,
+    "type": "code",
+    "difficulty": "hard",
+    "stem": "实现一个管理 C 字符串的类 MyString，要求遵循“三法则”：\n\n1. 构造函数从 `const char*` 深拷贝字符串；\n2. 自定义拷贝构造函数，进行深拷贝；\n3. 自定义拷贝赋值运算符，进行深拷贝并处理自赋值；\n4. 析构函数用 delete[] 释放内存；\n5. 提供 `setChar(int, char)` 修改指定位置字符，以及 `c_str()` 返回内部字符串。\n\n主函数读入两个不含空格的字符串 s1、s2（长度 1~100），创建 `MyString x(s1)` 和 `MyString y(s2)`；执行 `y = x;` 后，把 x 的第 0 个字符改为 'X'（输入保证 s1 非空）；最后输出 x 和 y，用空格分隔。\n\n示例：\n\n```text\n输入：hello world\n输出：Xello hello\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "本题考查拷贝构造、拷贝赋值与深拷贝。默认拷贝赋值只复制指针，y 与 x 会共享同一块内存，修改 x 会影响 y，且析构时重复 delete[]。正确做法是为新内容分配独立内存，复制数据后再释放旧内存；更稳妥的写法是先分配并复制到临时指针，再 delete[] 旧指针并接管新指针。自赋值时必须先判断 this != &other，否则会先释放自己的数据再读取已释放的内存。本题输出 \"Xello hello\" 说明 y 拥有独立副本。",
+    "hints": [
+      "拷贝构造和拷贝赋值都要重新 new 一块内存并复制内容。",
+      "拷贝赋值要先判断 this != &other，避免自赋值时释放自己的数据。",
+      "可以先把新内容复制到临时指针，再 delete[] 旧数据并接管临时指针。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n#include <cstring>\n#include <string>\n\nclass MyString {\nprivate:\n    char* data;\n\npublic:\n    explicit MyString(const char* s) {\n        int n = static_cast<int>(std::strlen(s));\n        data = new char[n + 1];\n        for (int i = 0; i <= n; ++i) {\n            data[i] = s[i];\n        }\n    }\n\n    MyString(const MyString& other) {\n        int n = static_cast<int>(std::strlen(other.data));\n        data = new char[n + 1];\n        for (int i = 0; i <= n; ++i) {\n            data[i] = other.data[i];\n        }\n    }\n\n    MyString& operator=(const MyString& other) {\n        if (this != &other) {\n            int n = static_cast<int>(std::strlen(other.data));\n            char* newData = new char[n + 1];\n            for (int i = 0; i <= n; ++i) {\n                newData[i] = other.data[i];\n            }\n            delete[] data;\n            data = newData;\n        }\n        return *this;\n    }\n\n    ~MyString() {\n        delete[] data;\n    }\n\n    void setChar(int index, char c) {\n        data[index] = c;\n    }\n\n    const char* c_str() const {\n        return data;\n    }\n};\n\nint main() {\n    std::string s1, s2;\n    std::cin >> s1 >> s2;\n\n    MyString x(s1.c_str());\n    MyString y(s2.c_str());\n\n    y = x;\n    x.setChar(0, 'X');\n\n    std::cout << x.c_str() << \" \" << y.c_str() << std::endl;\n    return 0;\n}\n```",
+    "order_index": 18
+  },
+  {
+    "slug": "ch5-q01",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "对一个空的 `std::vector<int>` 连续调用 `push_back` 10 次后，关于 `size()` 与 `capacity()` 的说法，正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`size() == 10`，`capacity() == 10`"
+      },
+      {
+        "id": "B",
+        "text": "`size() == 10`，`capacity()` 一定大于或等于 10"
+      },
+      {
+        "id": "C",
+        "text": "`size() == 10`，`capacity() == 0`"
+      },
+      {
+        "id": "D",
+        "text": "`size()` 一定大于 10，`capacity() == 10`"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`size()` 表示当前元素个数，`push_back` 10 次后必定是 10；`capacity()` 表示当前已分配空间能容纳的元素个数。空间不足时 vector 会按实现定义的策略（常见为翻倍）重新分配，因此最终的 capacity 一定不小于 10，但具体数值依实现而定。A 错在把 capacity 等同于 size；C 错在插入元素后必然已分配内存；D 错在 size 是精确的元素个数，不会大于 10。常见误区是把 capacity 当成 size，或以为扩容后 capacity 恰好等于元素个数。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 1
+  },
+  {
+    "slug": "ch5-q02",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下列标准库容器中，保证元素在内存中连续存放的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`std::vector`"
+      },
+      {
+        "id": "B",
+        "text": "`std::list`"
+      },
+      {
+        "id": "C",
+        "text": "`std::map`"
+      },
+      {
+        "id": "D",
+        "text": "`std::unordered_set`"
+      }
+    ],
+    "answer": "A",
+    "explanation": "`std::vector`（以及 `std::array`、`std::string`）保证元素连续存放，因此支持随机访问和指针算术运算。`std::list` 是双向链表，每个元素单独分配节点；`std::map` 通常用红黑树实现，元素分布在各个节点；`std::unordered_set` 由哈希桶和节点组成，都不连续。常见误区是忽略 `std::vector<bool>` 的特化：它按位压缩存储，元素并非普通 bool 数组，但 `std::vector<int>` 等普通类型是连续的。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 2
+  },
+  {
+    "slug": "ch5-q03",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码的输出是？\n\n```cpp\n#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v{1, 2, 3};\n    for (auto x : v) {\n        x *= 2;\n    }\n    for (int x : v) {\n        std::cout << x << ' ';\n    }\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "`2 4 6`"
+      },
+      {
+        "id": "B",
+        "text": "`1 2 3`"
+      },
+      {
+        "id": "C",
+        "text": "编译错误，因为 range-based for 中的变量不可修改"
+      },
+      {
+        "id": "D",
+        "text": "未定义行为"
+      }
+    ],
+    "answer": "B",
+    "explanation": "range-based for 中的 `auto x` 每次迭代都从容器元素拷贝出一个副本，对 `x` 的修改只作用于副本，不会影响 vector 中的元素，所以两个循环后输出 `1 2 3`。如果要修改元素，应写成 `for (auto& x : v)`；如果只读且避免拷贝，可写 `for (const auto& x : v)`。C 错在语法本身合法；D 错在没有越界或悬空操作。常见误区是把 `auto` 当成引用。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 3
+  },
+  {
+    "slug": "ch5-q04",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "关于 `std::unordered_map`，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "遍历时元素一定按 key 升序输出"
+      },
+      {
+        "id": "B",
+        "text": "遍历顺序由哈希函数和桶的实现决定，不保证与插入顺序或 key 顺序一致"
+      },
+      {
+        "id": "C",
+        "text": "不允许为自定义类型提供哈希函数"
+      },
+      {
+        "id": "D",
+        "text": "查找操作的最坏时间复杂度保证为 O(1)"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`unordered_map` 基于哈希表，元素的遍历顺序取决于哈希值和桶的数量、实现细节，标准不保证任何顺序，因此 B 正确、A 错误。C 错误：可以通过特化 `std::hash` 或传入自定义哈希函数来支持自定义 key 类型。D 错误：平均查找复杂度是 O(1)，但发生大量哈希冲突时最坏为 O(n)。常见误区是把 `unordered_map` 当作按插入顺序遍历的容器（那是 `std::map` 有序、或某些语言中 OrderedDict 的行为）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 4
+  },
+  {
+    "slug": "ch5-q05",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码在 `push_back` 之后继续使用之前保存的迭代器 `it`，关于这段代码说法正确的是？\n\n```cpp\n#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v{1, 2, 3};\n    auto it = v.begin();\n    v.push_back(4);   // 可能触发扩容\n    std::cout << *it;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "一定输出 1，迭代器仍然有效"
+      },
+      {
+        "id": "B",
+        "text": "若 `push_back` 触发扩容，`it` 失效，解引用它是未定义行为"
+      },
+      {
+        "id": "C",
+        "text": "只有 `v.end()` 会失效，`it` 仍然有效"
+      },
+      {
+        "id": "D",
+        "text": "编译器会自动把 `it` 更新到新内存地址"
+      }
+    ],
+    "answer": "B",
+    "explanation": "vector 扩容时会重新分配一块更大的内存并把原有元素搬过去，原来保存的所有迭代器、指针和引用都会失效，继续解引用属于未定义行为，所以 B 正确。A 忽略了扩容的可能；C 错误，扩容时不只是 end() 失效，指向元素的迭代器也全部失效；D 错误，迭代器只是保存地址的普通对象，标准库不会追踪并更新它。补充：如果当前 capacity 足够、没有发生扩容，`push_back` 只会使 `end()` 失效，指向已有元素的迭代器仍有效。安全做法是重新获取迭代器，或用下标访问。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 5
+  },
+  {
+    "slug": "ch5-q06",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "要把 `std::vector<int> v` 中所有值为 0 的元素删除，下列写法正确且常用的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`v.erase(std::remove(v.begin(), v.end(), 0), v.end());`"
+      },
+      {
+        "id": "B",
+        "text": "`v.remove(0);`"
+      },
+      {
+        "id": "C",
+        "text": "`auto it = std::find(v.begin(), v.end(), 0); if (it != v.end()) v.erase(it);`"
+      },
+      {
+        "id": "D",
+        "text": "`v.erase(0);`"
+      }
+    ],
+    "answer": "A",
+    "explanation": "`std::remove` 并不会真正删除元素，而是把所有不等于 0 的元素依次前移，返回新的逻辑结尾；随后 `erase` 删除尾部残留的元素，这就是经典的 erase-remove 惯用法，因此 A 正确。B 错误：vector 没有成员函数 `remove`（list 才有 `remove` 成员）。C 错误：这样只会删除第一个 0，且 erase 之后 it 及其后的迭代器失效。D 错误：`erase` 的参数是迭代器，不是值。常见误区是只调用 `std::remove` 而不接 `erase`，此时 size 不变。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 6
+  },
+  {
+    "slug": "ch5-q07",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "以下代码的编译结果是？\n\n```cpp\n#include <algorithm>\n#include <list>\n\nint main() {\n    std::list<int> lst{3, 1, 2};\n    std::sort(lst.begin(), lst.end());\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "编译通过，list 会被升序排序"
+      },
+      {
+        "id": "B",
+        "text": "编译错误，因为 `std::sort` 要求随机访问迭代器，而 list 只提供双向迭代器"
+      },
+      {
+        "id": "C",
+        "text": "编译通过，但运行时会抛异常"
+      },
+      {
+        "id": "D",
+        "text": "编译通过，但排序结果不正确"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`std::sort` 的典型实现依赖随机访问迭代器（需要 `it + n`、下标式跳跃以及快速计算距离），而 `std::list` 的迭代器是双向迭代器，不支持这些运算，因此编译失败，B 正确。对 list 应使用成员函数 `lst.sort()`，它是为链表专门实现的归并排序，时间复杂度 O(n log n) 且不移动元素。A、C、D 都错误，因为问题发生在编译期而不是运行期。常见误区是以为所有容器都能直接套用 `std::sort`。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 7
+  },
+  {
+    "slug": "ch5-q08",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码输出什么？\n\n```cpp\n#include <iostream>\n#include <numeric>\n#include <vector>\n\nint main() {\n    std::vector<double> v{1.5, 2.5};\n    auto s = std::accumulate(v.begin(), v.end(), 0);\n    std::cout << s;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "`4`"
+      },
+      {
+        "id": "B",
+        "text": "`4.0`"
+      },
+      {
+        "id": "C",
+        "text": "`3`"
+      },
+      {
+        "id": "D",
+        "text": "`3.5`"
+      }
+    ],
+    "answer": "C",
+    "explanation": "`std::accumulate` 的累加器类型由第三个参数决定，这里传入字面量 `0`，所以内部累加变量是 `int`，`auto s` 也推导为 `int`。计算过程：`0 + 1.5 = 1.5`，转回 int 截断为 1；`1 + 2.5 = 3.5`，再截断为 3，最终输出 `3`。A、B 错在忽略了 int 截断；D 错在把截断理解成四舍五入。正确做法是传入 `0.0`，让累加器成为 double，此时结果为 4。常见误区是只看元素类型而忽略初始值的类型。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 8
+  },
+  {
+    "slug": "ch5-q09",
+    "chapter": 5,
+    "type": "single",
+    "difficulty": "hard",
+    "stem": "要对 `std::vector<int>` 按降序排序，下列 lambda 作为 `std::sort` 的第三个参数，正确且安全的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`[](int a, int b) { return a >= b; }`"
+      },
+      {
+        "id": "B",
+        "text": "`[](int a, int b) { return a > b; }`"
+      },
+      {
+        "id": "C",
+        "text": "`[](int a, int b) { return a <= b; }`"
+      },
+      {
+        "id": "D",
+        "text": "`[](int a, int b) { return a < b; }`"
+      }
+    ],
+    "answer": "B",
+    "explanation": "比较器必须满足严格弱序（strict weak ordering），其中要求 `comp(x, x)` 为 false（不可自反）。`a >= b` 在 a 与 b 相等时返回 true，违反这一要求，会导致 `std::sort` 行为未定义（MSVC 调试运行时会报 invalid comparator 断言），所以 A 错误。B 的 `a > b` 表示“a 应排在 b 前面”，正好实现降序，正确。C 的 `a <= b` 同样在相等时返回 true，且方向是升序；D 是标准升序，方向反了。常见误区是用 `>=` 或 `<=` 图省事，忽略相等元素。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 9
+  },
+  {
+    "slug": "ch5-q10",
+    "chapter": 5,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于 `std::vector` 的下列表述，正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "当 `push_back` 触发扩容时，之前保存的迭代器、指针和引用都会失效"
+      },
+      {
+        "id": "B",
+        "text": "任意时刻都有 `size() <= capacity()`"
+      },
+      {
+        "id": "C",
+        "text": "调用 `reserve(100)` 会把 `size()` 变成 100"
+      },
+      {
+        "id": "D",
+        "text": "`push_back` 的均摊时间复杂度是 O(1)"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "A 正确：扩容会重新分配内存并搬移元素，所有指向旧内存的迭代器、指针、引用失效。B 正确：size 是已构造元素个数，capacity 是已分配空间能容纳的元素个数，前者不可能大于后者。C 错误：`reserve` 只预分配容量、改变 capacity，不构造元素、不改变 size；调用后直接访问 `v[0]` 仍是越界访问。D 正确：单次扩容是 O(n)，但按几何级数增长策略，摊到每次 push_back 上是 O(1)。常见误区是把 `reserve` 与 `resize` 混淆。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 10
+  },
+  {
+    "slug": "ch5-q11",
+    "chapter": 5,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于 `std::map` 与 `std::unordered_map`，正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`std::map` 的迭代器按 key 升序遍历"
+      },
+      {
+        "id": "B",
+        "text": "`std::unordered_map` 的平均查找时间复杂度为 O(1)"
+      },
+      {
+        "id": "C",
+        "text": "对非 const 的 `std::map` 使用 `operator[]` 访问不存在的 key 会插入一个默认值"
+      },
+      {
+        "id": "D",
+        "text": "`std::unordered_map` 的迭代器是随机访问迭代器"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A 正确：`std::map` 通常由红黑树实现，中序遍历天然按 key 升序。B 正确：哈希表平均 O(1)，冲突严重时最坏 O(n)。C 正确：非 const 的 `operator[]` 在 key 不存在时会插入 `value_type(key, T())` 并返回其引用，这也是“用 operator[] 查 map 可能悄悄改大小”的经典坑；只读查找应使用 `find` 或 `at`。D 错误：`unordered_map` 的迭代器是前向迭代器，不支持 `it + n`、`<` 比较等随机访问操作。常见误区是以为 unordered_map 也有序或支持下标跳跃。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 11
+  },
+  {
+    "slug": "ch5-q12",
+    "chapter": 5,
+    "type": "multiple",
+    "difficulty": "hard",
+    "stem": "已知 `std::list<int> lst{1, 2, 3, 4, 5};` 和 `std::vector<int> v{1, 2, 3, 4, 5};`，下列关于迭代器的说法正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "对 list 的迭代器调用 `std::distance` 是 O(n)"
+      },
+      {
+        "id": "B",
+        "text": "对 vector 的迭代器调用 `std::advance(it, 3)` 是 O(1)"
+      },
+      {
+        "id": "C",
+        "text": "list 的迭代器支持 `it + 2` 这样的运算"
+      },
+      {
+        "id": "D",
+        "text": "vector 的迭代器支持 `it + 2` 这样的运算"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "list 的迭代器是双向迭代器，只能 `++`/`--` 逐格移动，所以 `std::distance` 需要逐个前进，复杂度 O(n)，A 正确；它也不支持 `it + 2`，C 错误。vector 的迭代器是随机访问迭代器，`std::advance` 和 `std::distance` 都能直接做指针式算术，复杂度 O(1)，B、D 正确。常见误区是以为所有容器的迭代器都支持加法，或以为 `std::advance` 的复杂度总是 O(n)。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 12
+  },
+  {
+    "slug": "ch5-q13",
+    "chapter": 5,
+    "type": "output",
+    "difficulty": "easy",
+    "stem": "下面程序的输出是什么？\n\n```cpp\n#include <algorithm>\n#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v{3, 1, 4, 1, 5};\n    std::cout << std::count(v.begin(), v.end(), 1);\n}\n```",
+    "options": null,
+    "answer": [
+      "2"
+    ],
+    "explanation": "`std::count` 统计区间 `[v.begin(), v.end())` 中等于 1 的元素个数。vector 中元素为 3、1、4、1、5，其中 1 出现两次，因此返回 2，程序输出 `2`（末尾没有换行符）。常见误区是把 `count` 与 `find` 混淆，`find` 只返回第一个匹配元素的迭代器。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 13
+  },
+  {
+    "slug": "ch5-q14",
+    "chapter": 5,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "下面程序的输出是什么？\n\n```cpp\n#include <iostream>\n#include <map>\n#include <string>\n\nint main() {\n    std::map<std::string, int> m;\n    m[\"a\"] = 1;\n    m[\"b\"]++;\n    std::cout << m.size() << \" \" << m[\"c\"];\n}\n```",
+    "options": null,
+    "answer": [
+      "2 0"
+    ],
+    "explanation": "执行 `m[\"a\"] = 1` 后 map 有一个元素；`m[\"b\"]++` 会先插入 `b` 并默认构造值 0，再自增为 1，此时 size 为 2。关键在输出语句：C++17 保证链式 `<<` 从左到右求值，先计算 `m.size()` 得到 2，再计算 `m[\"c\"]`——这个 non-const `operator[]` 会插入 key `c`，值为默认的 0，并返回 0。因此输出 `2 0`，而不是 `3 0`。常见误区是以为 `m[\"c\"]` 只读取不插入，或以为 size 会先看到插入后的 3。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 14
+  },
+  {
+    "slug": "ch5-q15",
+    "chapter": 5,
+    "type": "output",
+    "difficulty": "hard",
+    "stem": "下面程序的输出是什么？\n\n```cpp\n#include <algorithm>\n#include <iostream>\n#include <numeric>\n#include <vector>\n\nint main() {\n    std::vector<int> v{3, 1, 4, 1, 5, 9};\n    std::sort(v.begin(), v.end(), [](int a, int b) { return a > b; });\n    int s = std::accumulate(v.begin(), v.begin() + 3, 0);\n    std::cout << v.front() << ' ' << v.back() << ' ' << s;\n}\n```",
+    "options": null,
+    "answer": [
+      "9 1 18"
+    ],
+    "explanation": "lambda `a > b` 表示降序，排序后 v 为 `9 5 4 3 1 1`。因此 `v.front()` 是 9，`v.back()` 是 1。`accumulate` 累加区间 `[begin, begin+3)`，即前三个元素 9、5、4，初始值 0 是 int，和为 18。三个值用空格分隔输出，得到 `9 1 18`。常见误区：把降序比较器写成 `a >= b`（违反严格弱序）、误以为后三个元素参与求和、或把 `v.back()` 当成排序后的最大值。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 15
+  },
+  {
+    "slug": "ch5-q16",
+    "chapter": 5,
+    "type": "code",
+    "difficulty": "medium",
+    "stem": "读入 n 个整数成绩，先输出平均分（保留两位小数），再输出严格高于平均分的人数。\n\n输入格式：第一行一个整数 n（1 ≤ n ≤ 1000），第二行 n 个整数。\n\n输出格式：第一行平均分（保留两位小数），第二行高于平均分的人数。\n\n示例输入：\n\n```text\n5\n80 90 70 60 100\n```\n\n示例输出：\n\n```text\n80.00\n2\n```\n\n要求使用 `std::vector`、`std::accumulate` 和带 lambda 的 `std::count_if`。C++17 标准。",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "先用 vector 保存全部成绩，再用 `std::accumulate(..., 0.0)` 求和（初始值必须是 0.0，否则累加器为 int，小数会被截断），除以 n 得到 double 平均分。然后用 `std::count_if` 配合按值捕获平均分的 lambda 统计严格大于平均分的人数。最后用 `std::fixed` 与 `std::setprecision(2)` 控制两位小数。常见误区：初始值写 0 导致小数丢失；把“高于”写成 `>=`；忘记处理 n 为 0（本题保证 n ≥ 1）。",
+    "hints": [
+      "用 `std::accumulate(scores.begin(), scores.end(), 0.0)` 求和，初始值写成 0.0 才能得到 double。",
+      "用 lambda `[average](int s) { return s > average; }` 配合 `std::count_if` 统计人数。",
+      "输出前设置 `std::fixed` 和 `std::setprecision(2)`，需要包含 `<iomanip>`。"
+    ],
+    "reference_solution": "```cpp\n#include <algorithm>\n#include <iomanip>\n#include <iostream>\n#include <numeric>\n#include <vector>\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    std::vector<int> scores(n);\n    for (int& s : scores) {\n        std::cin >> s;\n    }\n\n    double average = std::accumulate(scores.begin(), scores.end(), 0.0) / n;\n    int above = std::count_if(scores.begin(), scores.end(),\n                              [average](int s) { return s > average; });\n\n    std::cout << std::fixed << std::setprecision(2) << average << '\\n';\n    std::cout << above << '\\n';\n    return 0;\n}\n```",
+    "order_index": 16
+  },
+  {
+    "slug": "ch5-q17",
+    "chapter": 5,
+    "type": "code",
+    "difficulty": "easy",
+    "stem": "读入 n 个整数，去除重复元素后按升序输出。要求使用关联容器 `std::set` 完成去重与排序。\n\n输入格式：第一行整数 n（1 ≤ n ≤ 1000），第二行 n 个整数。\n\n输出格式：第一行输出去重后的元素个数，第二行按升序输出这些元素，相邻元素之间用一个空格分隔（行末不要多余空格）。\n\n示例输入：\n\n```text\n7\n3 1 4 1 5 9 3\n```\n\n示例输出：\n\n```text\n5\n1 3 4 5 9\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "把每个数 `insert` 进 `std::set<int>`：set 自动去重，并按升序遍历。插入完成后 `values.size()` 就是去重后的个数。输出第二行时用 `first` 标记控制空格，避免行末多出空格。常见误区：用 vector 存完再手工去重但忘记先排序；输出时在每个元素后都加空格，导致行末多余空格。",
+    "hints": [
+      "`std::set` 的 `insert` 会自动去重，且遍历时元素已按升序排列。",
+      "去重后的个数直接用 `values.size()`。",
+      "用布尔标记控制空格，保证行末没有多余空格。"
+    ],
+    "reference_solution": "```cpp\n#include <iostream>\n#include <set>\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    std::set<int> values;\n    for (int i = 0; i < n; ++i) {\n        int x = 0;\n        std::cin >> x;\n        values.insert(x);\n    }\n\n    std::cout << values.size() << '\\n';\n    bool first = true;\n    for (int x : values) {\n        if (!first) {\n            std::cout << ' ';\n        }\n        std::cout << x;\n        first = false;\n    }\n    std::cout << '\\n';\n    return 0;\n}\n```",
+    "order_index": 17
+  },
+  {
+    "slug": "ch5-q18",
+    "chapter": 5,
+    "type": "code",
+    "difficulty": "hard",
+    "stem": "读入 n 个整数，按出现次数从多到少输出每个不同的值及其出现次数；出现次数相同时，按数值从小到大输出。\n\n输入格式：第一行整数 n（1 ≤ n ≤ 100000），第二行 n 个整数。\n\n输出格式：每行两个整数 `值 次数`，按上述规则排序。\n\n示例输入：\n\n```text\n8\n4 2 4 1 2 4 1 3\n```\n\n示例输出：\n\n```text\n4 3\n1 2\n2 2\n3 1\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "先用 `std::map<int, int>` 统计每个值的出现次数。再把键值对搬进 `std::vector<std::pair<int, int>>`，用 `std::sort` 加 lambda 排序：次数不同时按次数降序，次数相同时按值升序。lambda 必须满足严格弱序，两个分支分别返回 `lhs.second > rhs.second` 和 `lhs.first < rhs.first`。最后逐行输出。常见误区：直接对 map 排序（map 迭代器不能按 value 重排）；比较器写反；相等情况没写完整的次级排序条件导致结果不稳定。",
+    "hints": [
+      "先用 `std::map<int, int>` 统计频次，map 遍历时同时得到有序的键。",
+      "把 `{值, 次数}` 放进 vector，再用 lambda 比较器排序：先比次数降序，再比值升序。",
+      "比较器只在“a 应排在 b 前面”时返回 true，相等时必须返回 false。"
+    ],
+    "reference_solution": "```cpp\n#include <algorithm>\n#include <iostream>\n#include <map>\n#include <utility>\n#include <vector>\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    std::map<int, int> counts;\n    for (int i = 0; i < n; ++i) {\n        int x = 0;\n        std::cin >> x;\n        ++counts[x];\n    }\n\n    std::vector<std::pair<int, int>> items;\n    items.reserve(counts.size());\n    for (const auto& kv : counts) {\n        items.push_back({kv.first, kv.second});\n    }\n\n    std::sort(items.begin(), items.end(), [](const auto& lhs, const auto& rhs) {\n        if (lhs.second != rhs.second) {\n            return lhs.second > rhs.second;\n        }\n        return lhs.first < rhs.first;\n    });\n\n    for (const auto& item : items) {\n        std::cout << item.first << ' ' << item.second << '\\n';\n    }\n    return 0;\n}\n```",
+    "order_index": 18
+  },
+  {
+    "slug": "ch6-q01",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "已知 `std::vector<int> v{1, 2, 3};`，执行 `auto x = v[0];` 后 `x` 的类型是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`int`"
+      },
+      {
+        "id": "B",
+        "text": "`int&`"
+      },
+      {
+        "id": "C",
+        "text": "`const int`"
+      },
+      {
+        "id": "D",
+        "text": "`std::vector<int>::reference`"
+      }
+    ],
+    "answer": "A",
+    "explanation": "`auto` 按值推导，会丢弃引用和顶层 const，因此 `x` 是独立的 `int` 副本，修改它不影响 vector。想让 `x` 成为引用应写 `auto& x = v[0];`，只读引用写 `const auto& x = v[0];`。C 错误：v 不是 const，`v[0]` 本身也不是 const 表达式；D 错误：那是指针/引用的类型，auto 不会保留。常见误区是以为 `auto` 会推导出引用。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 1
+  },
+  {
+    "slug": "ch6-q02",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码的编译结果是？\n\n```cpp\n#include <memory>\n\nint main() {\n    auto p = std::make_unique<int>(5);\n    auto q = p;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "编译通过，p 与 q 都指向同一个 5"
+      },
+      {
+        "id": "B",
+        "text": "编译错误，`std::unique_ptr` 的拷贝构造函数被删除"
+      },
+      {
+        "id": "C",
+        "text": "编译通过，但 q 是空指针"
+      },
+      {
+        "id": "D",
+        "text": "编译通过，运行时程序崩溃"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`std::unique_ptr` 表示独占所有权，它的拷贝构造和拷贝赋值都被删除，所以 `auto q = p;` 会在编译期报错，B 正确。若要把所有权转移给 q，必须写 `auto q = std::move(p);`，此后 p 变为 nullptr。A 错误：那会破坏独占语义；C、D 错误：问题在编译期而不是运行期。常见误区是把 unique_ptr 当成 shared_ptr 一样可以随意复制。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 2
+  },
+  {
+    "slug": "ch6-q03",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "关于 `std::string_view`，下列说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "它拥有底层字符数组，析构时会释放内存"
+      },
+      {
+        "id": "B",
+        "text": "它是一个只读视图，不拥有内存，底层字符串必须比它活得久"
+      },
+      {
+        "id": "C",
+        "text": "通过它可以修改底层字符串的字符"
+      },
+      {
+        "id": "D",
+        "text": "它保证底层字符数组以 `'\\0'` 结尾"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`std::string_view` 只是“指针 + 长度”的轻量视图，不拥有内存，拷贝代价极低，适合做只读参数。它不保证底层缓冲区以 `'\\0'` 结尾，也不提供修改接口，因此 B 正确，A、C、D 错误。最典型的坑是让 string_view 指向一个临时 `std::string`，临时对象销毁后视图悬空。常见误区是误以为 string_view 等价于 const std::string。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 3
+  },
+  {
+    "slug": "ch6-q04",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "执行 `std::string b = std::move(a);` 之后，关于 `a` 的说法正确的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`a` 一定变成空字符串，可以安全地当空串使用"
+      },
+      {
+        "id": "B",
+        "text": "`a` 处于“有效但未指定”的状态，不应再依赖它原来的值，除非重新赋值"
+      },
+      {
+        "id": "C",
+        "text": "`a` 已被销毁，任何使用都是未定义行为"
+      },
+      {
+        "id": "D",
+        "text": "`a` 与 `b` 共享同一块内存，修改 `b` 会影响 `a`"
+      }
+    ],
+    "answer": "B",
+    "explanation": "标准只保证被移动后的对象处于“有效但未指定（valid but unspecified）”的状态：可以安全地析构、赋值，或调用不依赖其具体值的操作，但不能假定它仍保留原值，也不能假定它一定为空。A 错误：常见实现确实会把 string 置空，但这不是语言保证；C 错误：对象仍然存在且有效，使用它本身不是未定义行为（读取值的结果不确定）；D 错误：移动构造会把资源转移给 b，两者不再共享。常见误区是把“通常为空”当成“保证为空”。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 4
+  },
+  {
+    "slug": "ch6-q05",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码运行后会发生什么？\n\n```cpp\n#include <iostream>\n#include <memory>\n\nstruct Node {\n    std::shared_ptr<Node> next;\n    ~Node() { std::cout << \"x\"; }\n};\n\nint main() {\n    auto a = std::make_shared<Node>();\n    auto b = std::make_shared<Node>();\n    a->next = b;\n    b->next = a;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "输出两次 `x`"
+      },
+      {
+        "id": "B",
+        "text": "不输出 `x`，两个 Node 相互引用导致引用计数无法归零，发生内存泄漏"
+      },
+      {
+        "id": "C",
+        "text": "编译错误"
+      },
+      {
+        "id": "D",
+        "text": "程序崩溃"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`a->next = b` 与 `b->next = a` 形成 shared_ptr 循环引用：main 结束时局部的 a、b 释放，但两个对象各自仍被对方内部的 shared_ptr 持有，引用计数都停留在 1，析构函数不会执行，因此不会输出 `x`，内存泄漏。打破循环的办法是把其中一个成员改为 `std::weak_ptr<Node>`（弱引用不增加计数）。A 错误：循环导致计数不归零；C 错误：代码合法；D 错误：不会崩溃，只是泄漏。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 5
+  },
+  {
+    "slug": "ch6-q06",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "遍历 `std::map<std::string, int> m` 并只读访问，既能避免字符串拷贝又语义最清晰的是？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`for (auto [k, v] : m)`"
+      },
+      {
+        "id": "B",
+        "text": "`for (auto& [k, v] : m)`"
+      },
+      {
+        "id": "C",
+        "text": "`for (const auto& [k, v] : m)`"
+      },
+      {
+        "id": "D",
+        "text": "`for (const auto [k, v] : m)`"
+      }
+    ],
+    "answer": "C",
+    "explanation": "C 用 const 引用绑定 pair 的 key 和 value，既不拷贝字符串，又明确表达只读意图，最合适。A 和 D 都会按值拷贝 pair（D 的 const 只作用于拷贝出来的副本），对 string key 有额外开销，且修改 v 不会影响容器。B 用非 const 引用，虽然不拷贝，但允许误改 value，语义上不如 const 引用清晰。常见误区是在 range-based for 里写 `auto` 而忽略隐式拷贝。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 6
+  },
+  {
+    "slug": "ch6-q07",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "medium",
+    "stem": "下面代码的编译结果是？\n\n```cpp\n#include <iostream>\n\ntemplate <typename T>\nT add(T a, T b) {\n    return a + b;\n}\n\nint main() {\n    auto x = add(1, 2.5);\n    std::cout << x;\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "编译通过，x 为 3.5，T 为 double"
+      },
+      {
+        "id": "B",
+        "text": "编译错误，因为 T 同时被推导为 int 和 double，推导冲突"
+      },
+      {
+        "id": "C",
+        "text": "编译通过，x 为 3，T 为 int"
+      },
+      {
+        "id": "D",
+        "text": "编译通过，x 为 3.5，T 为 int"
+      }
+    ],
+    "answer": "B",
+    "explanation": "模板实参推导要求同一个模板参数 T 在所有实参位置上推导出一致的类型。这里第一个实参 1 推导 T 为 int，第二个实参 2.5 推导 T 为 double，两者矛盾，编译报错。修复方法：显式指定 `add<double>(1, 2.5)`、把参数改为两个类型 `template <typename T, typename U>`，或把 1 写成 1.0。A、C、D 都错误，因为根本编译不过。常见误区是以为模板会自动做类型提升或选公共类型。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 7
+  },
+  {
+    "slug": "ch6-q08",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "easy",
+    "stem": "下面代码的编译与运行情况是？\n\n```cpp\nconstexpr int twice(int x) {\n    return x * 2;\n}\n\nint main() {\n    int arr[twice(3)]{};\n    return static_cast<int>(sizeof(arr) / sizeof(arr[0]));\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "编译错误，constexpr 函数不能用于数组大小"
+      },
+      {
+        "id": "B",
+        "text": "可以编译，数组大小在编译期确定为 6"
+      },
+      {
+        "id": "C",
+        "text": "可以编译，但数组大小在运行期才确定"
+      },
+      {
+        "id": "D",
+        "text": "编译错误，constexpr 函数必须显式声明为 inline"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`constexpr` 函数在实参是常量表达式时可以在编译期求值。`twice(3)` 是常量表达式，值为 6，因此 `int arr[6]{}` 合法，数组大小在编译期确定，程序返回 6。A 错误：常量表达式函数正是编译期求值的典型用法；C 错误：数组大小必须是编译期常量，标准 C++ 不支持变长数组；D 错误：constexpr 函数隐含 inline，无需显式声明。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 8
+  },
+  {
+    "slug": "ch6-q09",
+    "chapter": 6,
+    "type": "single",
+    "difficulty": "hard",
+    "stem": "下面程序的输出是什么？\n\n```cpp\n#include <iostream>\n#include <string>\n#include <utility>\n\nint main() {\n    const std::string s = \"hello\";\n    std::string t = std::move(s);\n    std::cout << s.size() << \" \" << t.size();\n}\n```",
+    "options": [
+      {
+        "id": "A",
+        "text": "`0 5`"
+      },
+      {
+        "id": "B",
+        "text": "`5 5`"
+      },
+      {
+        "id": "C",
+        "text": "`5 0`"
+      },
+      {
+        "id": "D",
+        "text": "未定义行为"
+      }
+    ],
+    "answer": "B",
+    "explanation": "`std::move(s)` 只是把表达式转换为右值引用，对 const 对象得到的是 `const std::string&&`。`std::string` 的移动构造函数参数是非 const 的 `std::string&&`，无法绑定 const 右值，于是重载解析退回到拷贝构造函数：t 得到一份拷贝，s 完全不变。因此两者长度都是 5，输出 `5 5`。A 错误：拷贝不会清空源对象；C 错误：方向反了；D 错误：行为定义明确。常见误区是以为对 const 对象调用 std::move 也能“移动”并提升性能，实际上它只是退化成拷贝。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 9
+  },
+  {
+    "slug": "ch6-q10",
+    "chapter": 6,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于智能指针，正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`std::unique_ptr` 不能拷贝构造，但可以通过 `std::move` 转移所有权"
+      },
+      {
+        "id": "B",
+        "text": "拷贝一个 `std::shared_ptr` 会使引用计数加 1"
+      },
+      {
+        "id": "C",
+        "text": "`std::weak_ptr` 可以单独拥有对象，延长其生命周期"
+      },
+      {
+        "id": "D",
+        "text": "`std::make_unique` / `std::make_shared` 能避免显式 `new`，更安全"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "A 正确：unique_ptr 的拷贝操作被删除，只能移动，移动后源指针变为 nullptr。B 正确：shared_ptr 拷贝构造/赋值会递增共享的控制块引用计数。C 错误：weak_ptr 是弱引用，不拥有对象、不增加引用计数，只用于观察，使用时需 `lock()` 提升为 shared_ptr。D 正确：工厂函数把 new 和构造放在一起，避免裸 new 泄漏，且 make_shared 通常只分配一次内存。常见误区是以为 weak_ptr 能延长对象寿命。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 10
+  },
+  {
+    "slug": "ch6-q11",
+    "chapter": 6,
+    "type": "multiple",
+    "difficulty": "medium",
+    "stem": "关于 lambda 的捕获列表，正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`[=]` 按值捕获 lambda 体中用到的外部变量"
+      },
+      {
+        "id": "B",
+        "text": "`[&]` 按引用捕获 lambda 体中用到的外部变量"
+      },
+      {
+        "id": "C",
+        "text": "按值捕获的变量在 lambda 体内默认是 const 的，若要修改需要加 `mutable`"
+      },
+      {
+        "id": "D",
+        "text": "按值捕获后，外部变量之后的变化会同步反映到 lambda 内"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A、B 正确：`[=]` 和 `[&]` 是隐式捕获，分别按值和按引用捕获 lambda 体内实际用到的外部变量。C 正确：按值捕获生成的是 lambda 对象的成员副本，`operator()` 默认是 const 的，因此不能修改副本；加 `mutable` 可以去掉这个 const。D 错误：按值捕获是在 lambda 创建时拷贝，之后外部变量怎么改都不会影响 lambda 内的副本（要看到变化必须按引用捕获）。常见误区是把按值捕获理解成“实时读取外部变量”。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 11
+  },
+  {
+    "slug": "ch6-q12",
+    "chapter": 6,
+    "type": "multiple",
+    "difficulty": "hard",
+    "stem": "关于 `std::move` 和右值引用，正确的有？",
+    "options": [
+      {
+        "id": "A",
+        "text": "`std::move` 本身不移动任何资源，它只是把表达式转换为右值引用"
+      },
+      {
+        "id": "B",
+        "text": "被移动之后的对象仍然有效，但值处于未指定状态，通常应重新赋值后使用"
+      },
+      {
+        "id": "C",
+        "text": "声明为右值引用的变量（如 `T&& r = ...;`）在表达式中是左值"
+      },
+      {
+        "id": "D",
+        "text": "对 `const` 对象使用 `std::move` 一定能触发移动构造，提高效率"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "A 正确：`std::move` 只是一个 static_cast 到右值引用，真正的资源转移由移动构造/移动赋值完成。B 正确：被移动对象处于有效但未指定状态，可以析构和重新赋值，但不应依赖其原值。C 正确：具名的右值引用变量本身是左值（有名字、可取地址），这也是为什么要再次 `std::move(r)` 才能继续转移。D 错误：const 对象移动时会得到 `const T&&`，无法绑定非 const 移动构造，通常退化为拷贝（参见本章第 9 题）。常见误区是把 std::move 当成“执行移动”的函数。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 12
+  },
+  {
+    "slug": "ch6-q13",
+    "chapter": 6,
+    "type": "output",
+    "difficulty": "easy",
+    "stem": "下面程序的输出是什么？\n\n```cpp\n#include <iostream>\n\nint main() {\n    int a = 10;\n    auto f = [a](int x) { return a + x; };\n    a = 20;\n    std::cout << f(5);\n}\n```",
+    "options": null,
+    "answer": [
+      "15"
+    ],
+    "explanation": "`[a]` 是按值捕获，lambda 创建时就把当时的 a（值为 10）拷贝进 lambda 对象。之后 `a = 20` 修改的是外部变量，不影响 lambda 内的副本。调用 `f(5)` 得到 10 + 5 = 15，输出 `15`。若写成 `[&a]`，则捕获的是引用，输出会变为 25。常见误区是把按值捕获理解为运行时实时读取外部变量。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 13
+  },
+  {
+    "slug": "ch6-q14",
+    "chapter": 6,
+    "type": "output",
+    "difficulty": "medium",
+    "stem": "下面程序的输出是什么？\n\n```cpp\n#include <iostream>\n#include <memory>\n\nint main() {\n    auto p = std::make_shared<int>(7);\n    {\n        auto q = p;\n        std::cout << p.use_count();\n    }\n    std::cout << \" \" << p.use_count();\n}\n```",
+    "options": null,
+    "answer": [
+      "2 1"
+    ],
+    "explanation": "`auto q = p;` 拷贝 shared_ptr，引用计数从 1 变为 2，因此第一次输出 2。离开内层作用域时 q 析构，计数减回 1，所以第二次输出 1。最终 stdout 是 `2 1`。常见误区是以为 shared_ptr 拷贝不会增加计数，或以为 q 离开作用域后对象也被销毁（p 还持有它）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 14
+  },
+  {
+    "slug": "ch6-q15",
+    "chapter": 6,
+    "type": "output",
+    "difficulty": "hard",
+    "stem": "下面程序的输出是什么？\n\n```cpp\n#include <iostream>\n#include <optional>\n#include <string>\n\nstd::optional<std::string> findName(int id) {\n    if (id == 1) {\n        return std::string(\"Ann\");\n    }\n    return std::nullopt;\n}\n\nint main() {\n    auto a = findName(1);\n    auto b = findName(2);\n    std::cout << a.value_or(\"none\") << ' '\n              << b.value_or(\"none\") << ' '\n              << b.has_value();\n}\n```",
+    "options": null,
+    "answer": [
+      "Ann none 0"
+    ],
+    "explanation": "`findName(1)` 返回包含 `\"Ann\"` 的 optional；`findName(2)` 返回 `std::nullopt`（空 optional）。`value_or` 在有值时返回内部值，无值时返回参数：a 得到 `Ann`，b 得到 `none`。`b.has_value()` 为 false，打印 bool 默认输出 `0`。三个值用空格分隔，得到 `Ann none 0`。常见误区是以为对空 optional 调用 value_or 会抛异常（那是 `value()`），或以为 `has_value()` 打印 true/false（默认 boolalpha 未开启时是 1/0）。",
+    "hints": null,
+    "reference_solution": null,
+    "order_index": 15
+  },
+  {
+    "slug": "ch6-q16",
+    "chapter": 6,
+    "type": "code",
+    "difficulty": "medium",
+    "stem": "读入 n 个浮点数，使用函数模板分别求它们的总和与最大值，并输出（保留两位小数）。要求至少编写一个函数模板（例如 `template <typename T> T total(const std::vector<T>& v)`），不要针对 double 写死。\n\n输入格式：第一行整数 n（1 ≤ n ≤ 1000），第二行 n 个浮点数。\n\n输出格式：第一行总和，第二行最大值，均保留两位小数。\n\n示例输入：\n\n```text\n5\n1.5 2.5 3.0 4.0 5.5\n```\n\n示例输出：\n\n```text\n16.50\n5.50\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "函数模板 `template <typename T>` 让求和与求最大值的逻辑不依赖具体元素类型，`T sum{}` 用值初始化保证初值为 0。读入时用 `std::vector<double>` 保存数据，模板会以 T = double 实例化。输出前设置 `std::fixed` 与 `std::setprecision(2)`。常见误区：把累加初值写成 int 0（会截断小数）；在模板里把类型写死成 double；忘记包含 `<iomanip>`。",
+    "hints": [
+      "定义 `template <typename T> T total(const std::vector<T>& v)`，内部用 `T sum{}` 累加。",
+      "再写一个 `template <typename T> T maximum(const std::vector<T>& v)`，用 `v.front()` 初始化最大值。",
+      "用 `std::cout << std::fixed << std::setprecision(2);` 控制两位小数。"
+    ],
+    "reference_solution": "```cpp\n#include <iomanip>\n#include <iostream>\n#include <vector>\n\ntemplate <typename T>\nT total(const std::vector<T>& v) {\n    T sum{};\n    for (const T& x : v) {\n        sum += x;\n    }\n    return sum;\n}\n\ntemplate <typename T>\nT maximum(const std::vector<T>& v) {\n    T best = v.front();\n    for (const T& x : v) {\n        if (x > best) {\n            best = x;\n        }\n    }\n    return best;\n}\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    std::vector<double> v(n);\n    for (double& x : v) {\n        std::cin >> x;\n    }\n\n    std::cout << std::fixed << std::setprecision(2);\n    std::cout << total(v) << '\\n';\n    std::cout << maximum(v) << '\\n';\n    return 0;\n}\n```",
+    "order_index": 16
+  },
+  {
+    "slug": "ch6-q17",
+    "chapter": 6,
+    "type": "code",
+    "difficulty": "medium",
+    "stem": "读入 n 个仅含小写字母的单词，按长度从小到大排序；长度相同的按字典序从小到大排序。要求使用 `std::sort` 加 lambda 比较器完成。\n\n输入格式：第一行整数 n（1 ≤ n ≤ 1000），第二行 n 个单词，以空格分隔。\n\n输出格式：每行一个单词。\n\n示例输入：\n\n```text\n5\npear fig apple kiwi plum\n```\n\n示例输出：\n\n```text\nfig\nkiwi\npear\nplum\napple\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "用 vector<string> 保存单词，`std::sort` 的 lambda 比较器先比较长度，长度不同时返回 `a.size() < b.size()`；长度相同时返回 `a < b` 实现字典序。两个分支都必须返回 bool，且比较器要满足严格弱序。排序后逐行输出。示例中长度 4 的 kiwi、pear、plum 按字典序排在 fig 之后，apple 长度 5 排最后。常见误区：只在长度相同时写字典序而其余情况返回 false；把比较器写成 `<=`。",
+    "hints": [
+      "lambda 的参数用 `const std::string&`，避免每次比较都拷贝字符串。",
+      "先判断 `a.size() != b.size()`，返回长度比较结果；否则返回 `a < b`。",
+      "排序完成后用 range-based for 逐行输出。"
+    ],
+    "reference_solution": "```cpp\n#include <algorithm>\n#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    std::vector<std::string> words(n);\n    for (std::string& w : words) {\n        std::cin >> w;\n    }\n\n    std::sort(words.begin(), words.end(),\n              [](const std::string& a, const std::string& b) {\n                  if (a.size() != b.size()) {\n                      return a.size() < b.size();\n                  }\n                  return a < b;\n              });\n\n    for (const std::string& w : words) {\n        std::cout << w << '\\n';\n    }\n    return 0;\n}\n```",
+    "order_index": 17
+  },
+  {
+    "slug": "ch6-q18",
+    "chapter": 6,
+    "type": "code",
+    "difficulty": "hard",
+    "stem": "定义抽象基类 `Shape`（包含纯虚函数 `double area() const` 与虚析构函数），派生出 `Circle`（半径）和 `Rectangle`（宽、高）。读入 n 个图形描述，用 `std::vector<std::unique_ptr<Shape>>` 保存，然后依次输出每个图形的面积，每个一行并保留两位小数（π 取 3.141592653589793）。\n\n输入格式：第一行整数 n（1 ≤ n ≤ 1000）。随后 n 行，每行是 `c r`（圆，半径 r）或 `r w h`（矩形，宽 w、高 h）。\n\n输出格式：n 行，每行一个面积（保留两位小数）。\n\n示例输入：\n\n```text\n3\nc 2\nr 3 4\nc 1.5\n```\n\n示例输出：\n\n```text\n12.57\n12.00\n7.07\n```",
+    "options": null,
+    "answer": "SELF",
+    "explanation": "用抽象基类 Shape 定义统一接口，Circle 与 Rectangle 分别实现 area。工厂逻辑根据输入字符用 `std::make_unique` 创建具体对象，再 `push_back` 到 `vector<unique_ptr<Shape>>`——unique_ptr 是移动语义，push_back 时自动转移所有权。遍历时通过基类指针调用虚函数实现多态。虚析构函数保证 delete 基类指针时派生类析构被正确调用。输出用 `std::fixed` 与 `std::setprecision(2)`。常见误区：忘记虚析构；试图拷贝 unique_ptr；用裸 new 并忘记释放；把 π 写成近似值导致精度不符。",
+    "hints": [
+      "Shape 中声明 `virtual ~Shape() = default;` 和 `virtual double area() const = 0;`。",
+      "用 `std::make_unique<Circle>(r)` / `std::make_unique<Rectangle>(w, h)` 创建对象，push_back 时会自动移动进 vector。",
+      "遍历 `vector<unique_ptr<Shape>>` 时用 `shape->area()` 调用虚函数，输出前设置两位小数。"
+    ],
+    "reference_solution": "```cpp\n#include <iomanip>\n#include <iostream>\n#include <memory>\n#include <string>\n#include <vector>\n\nconstexpr double PI = 3.141592653589793;\n\nclass Shape {\npublic:\n    virtual ~Shape() = default;\n    virtual double area() const = 0;\n};\n\nclass Circle : public Shape {\npublic:\n    explicit Circle(double r) : radius_(r) {}\n    double area() const override { return PI * radius_ * radius_; }\n\nprivate:\n    double radius_ = 0.0;\n};\n\nclass Rectangle : public Shape {\npublic:\n    Rectangle(double w, double h) : width_(w), height_(h) {}\n    double area() const override { return width_ * height_; }\n\nprivate:\n    double width_ = 0.0;\n    double height_ = 0.0;\n};\n\nint main() {\n    int n = 0;\n    std::cin >> n;\n    std::vector<std::unique_ptr<Shape>> shapes;\n    shapes.reserve(n);\n\n    for (int i = 0; i < n; ++i) {\n        std::string kind;\n        std::cin >> kind;\n        if (kind == \"c\") {\n            double r = 0.0;\n            std::cin >> r;\n            shapes.push_back(std::make_unique<Circle>(r));\n        } else {\n            double w = 0.0;\n            double h = 0.0;\n            std::cin >> w >> h;\n            shapes.push_back(std::make_unique<Rectangle>(w, h));\n        }\n    }\n\n    std::cout << std::fixed << std::setprecision(2);\n    for (const auto& shape : shapes) {\n        std::cout << shape->area() << '\\n';\n    }\n    return 0;\n}\n```",
+    "order_index": 18
+  }
+]

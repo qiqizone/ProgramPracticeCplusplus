@@ -1,0 +1,16 @@
+[Unit]
+Description=C++ Practice Site API
+After=network.target
+
+[Service]
+Type=simple
+User=cpp
+WorkingDirectory=/opt/cpp-practice/server
+Environment=NODE_ENV=production
+EnvironmentFile=/opt/cpp-practice/server/.env
+ExecStart=/usr/bin/node src/index.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

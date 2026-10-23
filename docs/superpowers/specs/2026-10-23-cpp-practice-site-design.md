@@ -18,7 +18,7 @@
 - 用户注册登录后，能在 6 个章节中答题，答完立即看到对错与解析
 - 关闭浏览器、换设备重新登录后，进度、错题本、统计保持一致
 - 手机上可流畅完成一次完整的章节练习
-- 约 90 道选择题 + 15 道编程题的初始题库可导入并正常展示
+- 约 90 道选择题 + 16 道编程题的初始题库可导入并正常展示
 
 ## 2. 非目标（明确不做）
 
@@ -34,8 +34,8 @@
 |---|---|---|
 | 前端 | React 18 + TypeScript + Vite + Tailwind CSS | SPA，移动端优先响应式 |
 | 代码高亮 | highlight.js（cpp 语言包） | 只做展示，不做编辑器 |
-| 后端 | Node.js 20 + Express（JavaScript, ESM） | 保持构建步骤最少 |
-| 数据库 | SQLite（better-sqlite3，WAL 模式） | 单文件，便于备份 |
+| 后端 | Node.js 24 + Express（JavaScript, ESM） | 使用 Node 内置 `node:sqlite`，无原生依赖 |
+| 数据库 | SQLite（`node:sqlite`，WAL 模式） | 单文件，便于备份 |
 | 认证 | JWT（HS256，7 天）+ bcrypt | 无服务端会话表 |
 | 校验 | zod | 入参校验 |
 | 部署 | nginx 静态托管 + 反向代理；systemd 托管 Node 进程 | 服务器为 Linux，暂无 Docker，无域名 |
@@ -167,7 +167,7 @@ CREATE INDEX idx_states_user_status ON question_states(user_id, status);
 每次选择题作答后更新 `question_states`：
 
 - 答错：`status='wrong'`，`wrong_count += 1`，`correct_streak = 0` → 进入错题本
-- 答对：`correct_streak += 1`；若 `correct_streak >= 2` 则 `status='correct'`（移出错题本），否则保持原状态（仍在错题本，但连续答对计数增加）
+- 答对：`correct_streak += 1`；若该题此前是错题且连续答对不足 2 次，`status` 仍为 `'wrong'`（仍在错题本）；否则 `status='correct'`（首次答对或连续答对 2 次即视为正确）
 - 编程题标记完成：`status='done'`，不算对错，不进入错题本
 - 收藏 `starred` 与状态相互独立
 
@@ -217,7 +217,7 @@ CREATE INDEX idx_states_user_status ON question_states(user_id, status);
 | GET | `/chapters` | 返回 6 章的 `total / correct / done / wrong` 计数 |
 | GET | `/questions?chapter=1&mode=chapter` | 返回题目列表；答题时不返回 `answer`、`explanation`、`reference_solution` |
 | POST | `/attempts` | `{questionId, answer}` 或 `{questionId, completed:true}`（编程题）；返回 `{is_correct, answer, explanation, state}` |
-| GET | `/wrong-book` | 错题列表（含题干摘要、错误次数） |
+| GET | `/questions?mode=wrong` | 错题列表（含错误次数） |
 | POST | `/questions/:id/star` | 切换收藏，返回 `{starred}` |
 | GET | `/stats` | 统计面板数据 |
 
@@ -258,7 +258,7 @@ CREATE INDEX idx_states_user_status ON question_states(user_id, status);
 `data/questions.seed.json` 为数组，每项字段与 `questions` 表一致。初始题目：
 
 - 第 1-6 章，每章 15 道选择题（单选/多选/读代码写输出混合）
-- 编程题：第 1-3 章各 2 道，第 4-6 章各 3 道，合计 15 道
+- 编程题：第 1-2 章各 2 道，第 3-6 章各 3 道，合计 16 道
 - 选择题全部带 `explanation`，写清“为什么对 / 为什么错 / 常见误区”
 - 编程题带 `hints`（2-3 条）与完整可编译的 `reference_solution`，难度以 VS 单文件可直接运行为准
 - slug 规则：`ch{章节}-q{两位序号}`
@@ -277,7 +277,7 @@ CREATE INDEX idx_states_user_status ON question_states(user_id, status);
 
 ## 12. 部署
 
-1. 服务器安装 Node.js 20 与 nginx（无需 Docker）
+1. 服务器安装 Node.js 24 与 nginx（无需 Docker；`node:sqlite` 为 Node 内置，无原生编译依赖）
 2. 代码放 `/opt/cpp-practice`，`client/` 执行 `npm ci && npm run build`
 3. `server/` 执行 `npm ci --omit=dev`，`.env` 配置 `JWT_SECRET`、`PORT=3000`、`DB_PATH=/var/lib/cpp-practice/app.db`
 4. systemd unit `cpp-practice.service`：`User=cpp`, `WorkingDirectory=/opt/cpp-practice/server`, `ExecStart=/usr/bin/node src/index.js`, `Restart=always`

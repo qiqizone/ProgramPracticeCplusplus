@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+/* Markdown 内容样式 */
+.markdown {
+  @apply text-[15px] leading-7 text-slate-700;
+}
+
+.markdown p {
+  @apply my-2;
+}
+
+.markdown ul {
+  @apply my-2 list-disc pl-5;
+}
+
+.markdown ol {
+  @apply my-2 list-decimal pl-5;
+}
+
+.markdown li {
+  @apply my-1;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+  @apply mb-2 mt-4 font-semibold text-slate-800;
+}
+
+.markdown h1 {
+  @apply text-xl;
+}
+
+.markdown h2 {
+  @apply text-lg;
+}
+
+.markdown h3 {
+  @apply text-base;
+}
+
+.markdown pre {
+  @apply my-3 overflow-x-auto rounded-xl bg-slate-900 p-4 text-[13px] leading-6 text-slate-100;
+}
+
+.markdown pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+
+.markdown :not(pre) > code {
+  @apply rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[0.9em] text-rose-600;
+}
+
+.markdown table {
+  @apply my-3 w-full border-collapse text-sm;
+}
+
+.markdown th,
+.markdown td {
+  @apply border border-slate-200 px-2 py-1 text-left;
+}
+
+.markdown blockquote {
+  @apply my-3 border-l-4 border-slate-200 pl-3 text-slate-600;
+}
+
+.markdown a {
+  @apply text-brand-600 underline;
+}
+
+.markdown img {
+  @apply my-3 max-w-full rounded-lg;
+}
+
+.markdown hr {
+  @apply my-4 border-slate-200;
+}
