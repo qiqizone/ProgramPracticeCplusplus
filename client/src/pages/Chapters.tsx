@@ -62,7 +62,7 @@ export default function Chapters() {
           return (
             <Link
               key={meta.id}
-              to={`/practice?mode=chapter&chapter=${meta.id}`}
+              to={`/chapter/${meta.id}`}
               className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-brand-300 hover:shadow"
             >
               <div className="flex items-start justify-between gap-3">
@@ -89,6 +89,10 @@ export default function Chapters() {
                 </div>
                 <ProgressBar value={done} max={totalInChapter} />
               </div>
+
+              <p className="mt-3 text-xs font-medium text-brand-600 group-hover:text-brand-700">
+                先看知识点，再开始练习 →
+              </p>
             </Link>
           );
         })}

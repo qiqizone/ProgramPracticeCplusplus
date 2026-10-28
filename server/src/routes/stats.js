@@ -53,7 +53,7 @@ router.get('/', authenticate, (req, res) => {
     .all(userId);
 
   const byChapter = new Map(chapterRows.map((row) => [row.chapter, row]));
-  const chapters = Array.from({ length: 6 }, (_, i) => {
+  const chapters = Array.from({ length: 10 }, (_, i) => {
     const chapter = i + 1;
     const row = byChapter.get(chapter);
     const total = row?.total ?? 0;

@@ -63,6 +63,40 @@ export function applyAttempt(userId, questionId, isCorrect) {
   return next;
 }
 
+export function applyExerciseAttempt(userId, exerciseId, isCorrect) {
+  const current = db
+    .prepare('SELECT * FROM knowledge_exercise_states WHERE user_id = ? AND exercise_id = ?')
+    .get(userId, exerciseId);
+  const prev = current
+    ? {
+        status: current.status,
+        wrong_count: current.wrong_count,
+        correct_streak: current.correct_streak,
+      }
+    : { status: 'unseen', wrong_count: 0, correct_streak: 0 };
+
+  let next;
+  if (isCorrect) {
+    const correctStreak = prev.correct_streak + 1;
+    const status = prev.status === 'wrong' && correctStreak < 2 ? 'wrong' : 'correct';
+    next = { status, wrong_count: prev.wrong_count, correct_streak: correctStreak };
+  } else {
+    next = { status: 'wrong', wrong_count: prev.wrong_count + 1, correct_streak: 0 };
+  }
+
+  db.prepare(
+    `INSERT INTO knowledge_exercise_states (user_id, exercise_id, status, wrong_count, correct_streak, updated_at)
+     VALUES (?, ?, ?, ?, ?, datetime('now', 'localtime'))
+     ON CONFLICT(user_id, exercise_id) DO UPDATE SET
+       status = excluded.status,
+       wrong_count = excluded.wrong_count,
+       correct_streak = excluded.correct_streak,
+       updated_at = datetime('now', 'localtime')`
+  ).run(userId, exerciseId, next.status, next.wrong_count, next.correct_streak);
+
+  return next;
+}
+
 export function markDone(userId, questionId) {
   const current = getState(userId, questionId);
   const next = {

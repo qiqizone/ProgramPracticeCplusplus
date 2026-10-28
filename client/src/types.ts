@@ -73,3 +73,50 @@ export interface StatsData {
   chapters: ChapterStat[];
   daily: { date: string; count: number }[];
 }
+
+export interface KnowledgeExercise {
+  id: number;
+  slug: string;
+  knowledge_id: number;
+  stem: string;
+  options: Option[];
+  order_index: number;
+  status?: 'unseen' | 'wrong' | 'correct';
+  wrong_count?: number;
+  correct_streak?: number;
+}
+
+export interface KnowledgePoint {
+  id: number;
+  slug: string;
+  chapter: number;
+  title: string;
+  summary: string;
+  reference_url: string | null;
+  order_index: number;
+  exercises: KnowledgeExercise[];
+}
+
+export interface KnowledgeExerciseResult {
+  isCorrect: boolean;
+  answer: string;
+  explanation: string;
+  state: {
+    status: 'wrong' | 'correct';
+    wrong_count: number;
+    correct_streak: number;
+  };
+}
+
+export interface KnowledgeWrongExercise {
+  id: number;
+  slug: string;
+  stem: string;
+  options: Option[];
+  order_index: number;
+  point_slug: string;
+  point_title: string;
+  chapter: number;
+  wrong_count: number;
+  correct_streak: number;
+}

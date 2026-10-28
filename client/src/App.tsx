@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import { RequireAuth } from './components/RequireAuth';
 import Admin from './pages/Admin';
 import Chapters from './pages/Chapters';
+import ChapterDetail from './pages/ChapterDetail';
 import Login from './pages/Login';
 import Practice from './pages/Practice';
 import Stats from './pages/Stats';
@@ -15,6 +16,7 @@ export default function App() {
       <Route element={<RequireAuth />}>
         <Route element={<Layout />}>
           <Route index element={<Chapters />} />
+          <Route path="/chapter/:id" element={<ChapterDetail />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/wrong-book" element={<WrongBook />} />
           <Route path="/stats" element={<Stats />} />

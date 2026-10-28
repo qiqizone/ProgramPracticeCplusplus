@@ -6,6 +6,7 @@ import { authenticate, requireAdmin } from './middleware/auth.js';
 import { errorHandler, notFound } from './middleware/error.js';
 import authRoutes from './routes/auth.js';
 import chaptersRoutes from './routes/chapters.js';
+import knowledgeRoutes from './routes/knowledge.js';
 import questionsRoutes from './routes/questions.js';
 import attemptsRoutes from './routes/attempts.js';
 import statsRoutes from './routes/stats.js';
@@ -23,6 +24,7 @@ export function createApp() {
 
   app.use('/api/auth', authRoutes);
   app.use('/api/chapters', authenticate, chaptersRoutes);
+  app.use('/api/knowledge', authenticate, knowledgeRoutes);
   app.use('/api/questions', authenticate, questionsRoutes);
   app.use('/api/attempts', authenticate, attemptsRoutes);
   app.use('/api/stats', authenticate, statsRoutes);

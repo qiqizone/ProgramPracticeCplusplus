@@ -99,6 +99,17 @@ describe('认证', () => {
     expect(me.status).toBe(200);
     expect(me.body.username).toBe('alice');
   });
+
+  it('用户被删除后旧 token 返回 401 而不是 500', async () => {
+    const charlie = await registerUser('charlie');
+    db.prepare('DELETE FROM users WHERE username = ?').run('charlie');
+
+    const res = await request(app)
+      .get('/api/chapters')
+      .set('Authorization', `Bearer ${charlie.token}`);
+    expect(res.status).toBe(401);
+    expect(res.body.error.code).toBe('TOKEN_INVALID');
+  });
 });
 
 describe('题目与判分', () => {
@@ -275,5 +286,147 @@ describe('权限', () => {
       .set('Authorization', `Bearer ${login.body.token}`);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body.questions)).toBe(true);
+  });
+});
+
+describe('知识点', () => {
+  let token;
+  let exerciseId;
+
+  it('按章节返回知识点，按 order_index 排序', async () => {
+    const login = await request(app)
+      .post('/api/auth/login')
+      .send({ username: 'alice', password: 'password123' });
+    token = login.body.token;
+
+    db.prepare(
+      `INSERT INTO knowledge_points (slug, chapter, title, summary, reference_url, order_index)
+       VALUES (?, ?, ?, ?, ?, ?)`
+    ).run('t-kp2', 3, '第二个知识点', '总结二', 'https://zh.cppreference.com/w/cpp/language/pointer', 2);
+    const info = db
+      .prepare(
+        `INSERT INTO knowledge_points (slug, chapter, title, summary, reference_url, order_index)
+         VALUES (?, ?, ?, ?, ?, ?)`
+      )
+      .run('t-kp1', 3, '第一个知识点', '总结一', 'https://zh.cppreference.com/w/cpp/language/reference', 1);
+    const pointId = Number(info.lastInsertRowid);
+
+    const ex = db
+      .prepare(
+        `INSERT INTO knowledge_exercises (slug, knowledge_id, stem, options, answer, explanation, order_index)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`
+      )
+      .run(
+        't-kp1-ex1',
+        pointId,
+        '哪个是引用？',
+        JSON.stringify([
+          { id: 'A', text: 'int a;' },
+          { id: 'B', text: 'int& r = a;' },
+          { id: 'C', text: 'int* p = &a;' },
+          { id: 'D', text: 'int arr[2];' },
+        ]),
+        'B',
+        '引用是别名，用 & 声明',
+        1
+      );
+    exerciseId = Number(ex.lastInsertRowid);
+
+    const res = await request(app)
+      .get('/api/knowledge?chapter=3')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.points.map((p) => p.slug)).toEqual(['t-kp1', 't-kp2']);
+    expect(res.body.points[0]).toMatchObject({
+      chapter: 3,
+      title: '第一个知识点',
+      summary: '总结一',
+      reference_url: 'https://zh.cppreference.com/w/cpp/language/reference',
+    });
+    expect(res.body.points[0].exercises).toHaveLength(1);
+    expect(res.body.points[0].exercises[0]).toMatchObject({
+      id: exerciseId,
+      stem: '哪个是引用？',
+    });
+    expect(res.body.points[0].exercises[0].options).toHaveLength(4);
+    expect(res.body.points[0].exercises[0].answer).toBeUndefined();
+    expect(res.body.points[0].exercises[0].explanation).toBeUndefined();
+  });
+
+  it('随堂练习判题：正确与错误都返回解析', async () => {
+    const correct = await request(app)
+      .post(`/api/knowledge/exercises/${exerciseId}/check`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ answer: 'B' });
+    expect(correct.status).toBe(200);
+    expect(correct.body).toMatchObject({
+      isCorrect: true,
+      answer: 'B',
+      explanation: '引用是别名，用 & 声明',
+    });
+
+    const wrong = await request(app)
+      .post(`/api/knowledge/exercises/${exerciseId}/check`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ answer: 'A' });
+    expect(wrong.body.isCorrect).toBe(false);
+    expect(wrong.body.answer).toBe('B');
+  });
+
+  it('随堂练习答错进入错题本，连续答对 2 次后移出', async () => {
+    const auth = { Authorization: `Bearer ${token}` };
+
+    const before = await request(app).get('/api/knowledge/wrong').set(auth);
+    expect(before.status).toBe(200);
+    expect(before.body.exercises.map((item) => item.id)).toContain(exerciseId);
+    expect(before.body.exercises[0].point_title).toBe('第一个知识点');
+    expect(before.body.exercises[0].answer).toBeUndefined();
+
+    const first = await request(app)
+      .post(`/api/knowledge/exercises/${exerciseId}/check`)
+      .set(auth)
+      .send({ answer: 'B' });
+    expect(first.body.state).toMatchObject({ status: 'wrong', correct_streak: 1 });
+
+    const stillWrong = await request(app).get('/api/knowledge/wrong').set(auth);
+    expect(stillWrong.body.exercises.map((item) => item.id)).toContain(exerciseId);
+
+    const second = await request(app)
+      .post(`/api/knowledge/exercises/${exerciseId}/check`)
+      .set(auth)
+      .send({ answer: 'B' });
+    expect(second.body.state).toMatchObject({ status: 'correct', correct_streak: 2 });
+
+    const cleared = await request(app).get('/api/knowledge/wrong').set(auth);
+    expect(cleared.body.exercises.map((item) => item.id)).not.toContain(exerciseId);
+  });
+
+  it('再次获取知识点会返回随堂练习的作答状态', async () => {
+    const res = await request(app)
+      .get('/api/knowledge?chapter=3')
+      .set('Authorization', `Bearer ${token}`);
+
+    const point = res.body.points.find((item) => item.slug === 't-kp1');
+    expect(point.exercises[0]).toMatchObject({
+      status: 'correct',
+      correct_streak: 2,
+      wrong_count: 1,
+    });
+  });
+
+  it('练习不存在返回 404', async () => {
+    const res = await request(app)
+      .post('/api/knowledge/exercises/999999/check')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ answer: 'A' });
+    expect(res.status).toBe(404);
+  });
+
+  it('章节参数不合法返回 400', async () => {
+    const res = await request(app)
+      .get('/api/knowledge?chapter=11')
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(400);
   });
 });

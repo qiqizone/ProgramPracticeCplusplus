@@ -10,7 +10,7 @@ const optionSchema = z.object({ id: z.string().min(1), text: z.string().min(1) }
 
 const questionInput = z.object({
   slug: z.string().regex(/^[A-Za-z0-9_-]{1,40}$/, 'slug 只能包含字母、数字、下划线和短横线'),
-  chapter: z.number().int().min(1).max(6),
+  chapter: z.number().int().min(1).max(10),
   type: z.enum(['single', 'multiple', 'output', 'code']),
   difficulty: z.enum(['easy', 'medium', 'hard']).default('medium'),
   stem: z.string().min(1),

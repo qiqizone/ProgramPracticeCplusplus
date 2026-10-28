@@ -14,7 +14,7 @@
 cd server
 cp .env.example .env          # 填入一个足够长的随机 JWT_SECRET
 npm install
-npm run seed                  # 导入 106 道初始题目（幂等，可重复执行）
+npm run seed                  # 导入 178 道题目、200 条知识点与 400 道随堂练习（幂等，可重复执行）
 npm run dev                   # http://127.0.0.1:3000
 
 # 2. 前端（另开一个终端）
@@ -78,7 +78,7 @@ CLIENT_ORIGIN=http://你的服务器IP
 chown -R cpp:cpp /opt/cpp-practice
 ```
 
-### 5. 导入题库
+### 5. 导入题库与知识点
 
 ```bash
 cd /opt/cpp-practice/server

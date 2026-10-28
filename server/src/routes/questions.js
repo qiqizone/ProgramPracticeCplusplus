@@ -31,7 +31,7 @@ router.get('/', authenticate, (req, res) => {
 
   if (mode === 'chapter') {
     const chapter = Number(req.query.chapter);
-    if (!Number.isInteger(chapter) || chapter < 1 || chapter > 6) {
+    if (!Number.isInteger(chapter) || chapter < 1 || chapter > 10) {
       throw new HttpError(400, 'INVALID_CHAPTER', '章节参数不合法');
     }
     rows = db

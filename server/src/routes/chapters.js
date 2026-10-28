@@ -4,7 +4,7 @@ import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 
-const CHAPTER_TOTAL = 6;
+const CHAPTER_TOTAL = 10;
 
 router.get('/', authenticate, (req, res) => {
   const rows = db
