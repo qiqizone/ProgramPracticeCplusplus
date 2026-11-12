@@ -15,7 +15,7 @@ function navClass({ isActive }: { isActive: boolean }) {
 }
 
 export default function Layout() {
-  const { user, logout } = useAuth();
+  const { user, localMode, logout } = useAuth();
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -45,14 +45,20 @@ export default function Layout() {
           </nav>
 
           <div className="flex items-center gap-2 text-sm">
-            <span className="hidden text-slate-500 sm:inline">{user?.username}</span>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="rounded-lg px-3 py-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
-            >
-              退出
-            </button>
+            {localMode ? (
+              <span className="hidden text-slate-400 sm:inline">本地练习</span>
+            ) : (
+              <>
+                <span className="hidden text-slate-500 sm:inline">{user?.username}</span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-lg px-3 py-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                >
+                  退出
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>

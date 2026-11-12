@@ -1,0 +1,25 @@
+FROM node:24-bookworm-slim
+
+ENV NODE_ENV=production
+ENV TZ=Asia/Shanghai
+WORKDIR /app
+
+# SQLite 的 localtime 依赖系统时区数据
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY server/package.json server/package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY server/ ./
+# seed.js 通过 ../../../data 读取种子文件，server 位于 /app 时对应 /data
+COPY data/ /data/
+
+RUN mkdir -p /var/lib/cpp-practice \
+    && chown -R node:node /app /data /var/lib/cpp-practice
+
+USER node
+EXPOSE 3000
+
+CMD ["node", "src/index.js"]

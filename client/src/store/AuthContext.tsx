@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { api, clearToken, getToken, setToken } from '../api/client';
+import { api, clearToken, setToken } from '../api/client';
 import type { User } from '../types';
 
 interface AuthValue {
   user: User | null;
   loading: boolean;
+  localMode: boolean;
   login: (username: string, password: string) => Promise<void>;
   register: (username: string, password: string) => Promise<void>;
   logout: () => void;
@@ -19,13 +20,16 @@ interface AuthResponse {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(Boolean(getToken()));
+  const [localMode, setLocalMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!getToken()) return;
-
-    api<User>('/auth/me')
-      .then(setUser)
+    // 本地免登录模式下后端无需 token 也会返回用户，因此首次进入直接拉取
+    api<User & { localMode?: boolean }>('/auth/me')
+      .then((data) => {
+        setUser(data);
+        setLocalMode(Boolean(data.localMode));
+      })
       .catch(() => {
         clearToken();
         setUser(null);
@@ -63,7 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, localMode, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

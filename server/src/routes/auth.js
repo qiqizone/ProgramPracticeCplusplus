@@ -79,7 +79,7 @@ router.get('/me', authenticate, (req, res) => {
     .prepare('SELECT id, username, role, created_at FROM users WHERE id = ?')
     .get(req.user.id);
   if (!user) throw new HttpError(401, 'UNAUTHORIZED', '用户不存在');
-  res.json(user);
+  res.json({ ...user, localMode: config.localMode });
 });
 
 export default router;

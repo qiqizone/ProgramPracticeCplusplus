@@ -1,6 +1,9 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
+import path from 'node:path';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { config } from './config.js';
 import { authenticate, requireAdmin } from './middleware/auth.js';
 import { errorHandler, notFound } from './middleware/error.js';
@@ -29,6 +32,16 @@ export function createApp() {
   app.use('/api/attempts', authenticate, attemptsRoutes);
   app.use('/api/stats', authenticate, statsRoutes);
   app.use('/api/admin/questions', authenticate, requireAdmin, adminRoutes);
+
+  // 本地一键启动时直接由后端托管前端构建产物；不存在 dist 时（如开发环境）跳过
+  const clientDist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../client/dist');
+  if (existsSync(clientDist)) {
+    app.use(express.static(clientDist));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api/')) return next();
+      res.sendFile(path.join(clientDist, 'index.html'));
+    });
+  }
 
   app.use(notFound);
   app.use(errorHandler);

@@ -91,7 +91,7 @@ CREATE TABLE users (
 
 CREATE TABLE questions (
   id                 INTEGER PRIMARY KEY AUTOINCREMENT,
-  slug               TEXT NOT NULL UNIQUE,       -- 稳定标识，如 ch3-q07，导入时作为 upsert 键
+  slug               TEXT NOT NULL UNIQUE,       -- 稳+定标识，如 ch3-q07，导入时作为 upsert 键
   chapter            INTEGER NOT NULL,           -- 1-6
   type               TEXT NOT NULL,              -- 'single' | 'multiple' | 'output' | 'code'
   difficulty         TEXT NOT NULL DEFAULT 'medium', -- 'easy' | 'medium' | 'hard'

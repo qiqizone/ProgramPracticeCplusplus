@@ -3,7 +3,28 @@ import db from '../db/index.js';
 import { config } from '../config.js';
 import { HttpError } from '../lib/errors.js';
 
+// 本地免登录模式下使用的固定用户：沿用库里最早的账号，没有则自动创建
+function localUser() {
+  let user = db
+    .prepare('SELECT id, username, role FROM users ORDER BY id LIMIT 1')
+    .get();
+
+  if (!user) {
+    const info = db
+      .prepare("INSERT INTO users (username, password_hash, role) VALUES ('local', 'local-mode', 'admin')")
+      .run();
+    user = { id: Number(info.lastInsertRowid), username: 'local', role: 'admin' };
+  }
+
+  return user;
+}
+
 export function authenticate(req, _res, next) {
+  if (config.localMode) {
+    req.user = localUser();
+    return next();
+  }
+
   const header = req.headers.authorization || '';
   const [scheme, token] = header.split(' ');
 
