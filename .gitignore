@@ -2,8 +2,10 @@ node_modules/
 dist/
 .env
 .npm-cache/
-server/data/
-*.db
+server/data/*
 *.db-wal
 *.db-shm
 .DS_Store
+
+# 做题记录随代码一起同步，其余数据库临时文件忽略
+!server/data/app.db
